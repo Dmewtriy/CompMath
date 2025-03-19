@@ -8,55 +8,141 @@ namespace lab2VM
 {
     public class GaussSolver
     {
-        public double[] Solve(Matrix matrix)
+        // Функция для перестановки строк
+        private static void SwapRows(float[,] matrix, int row1, int row2)
+        {
+            int n = matrix.GetLength(1); // Количество столбцов
+            for (int j = 0; j < n; j++)
+            {
+                float temp = matrix[row1, j];
+                matrix[row1, j] = matrix[row2, j];
+                matrix[row2, j] = temp;
+            }
+        }
+
+        // Прямой ход с выбором главного элемента
+        private static void ForwardEliminationWithPivoting(float[,] matrix)
+        {
+            int n = matrix.GetLength(0);
+
+            for (int k = 0; k < n - 1; k++)
+            {
+                // Выбор главного элемента
+                int maxRow = k;
+                for (int i = k + 1; i < n; i++)
+                {
+                    if (Math.Abs(matrix[i, k]) > Math.Abs(matrix[maxRow, k]))
+                    {
+                        maxRow = i;
+                    }
+                }
+
+                // Перестановка строк, если нужно
+                if (maxRow != k)
+                {
+                    SwapRows(matrix, k, maxRow);
+                }
+
+                if (matrix[k, k] == 0)
+                {
+                    throw new InvalidOperationException("Ведущий элемент равен нулю. Решение невозможно.");
+                }
+
+                // Обнуление элементов под главной диагональю
+                for (int m = k + 1; m < n; m++)
+                {
+                    float factor = matrix[m, k] / matrix[k, k];
+                    for (int l = k; l < n + 1; l++) // n + 1, так как включаем вектор B
+                    {
+                        matrix[m, l] -= factor * matrix[k, l];
+                    }
+                }
+            }
+        }
+
+        // Прямой ход без выбора главного элемента
+        private static void ForwardEliminationWithoutPivoting(float[,] matrix)
+        {
+            int n = matrix.GetLength(0);
+
+            for (int k = 0; k < n - 1; k++)
+            {
+                if (matrix[k, k] == 0)
+                {
+                    throw new InvalidOperationException("Ведущий элемент равен нулю. Решение невозможно.");
+                }
+
+                // Обнуление элементов под главной диагональю
+                for (int m = k + 1; m < n; m++)
+                {
+                    float factor = matrix[m, k] / matrix[k, k];
+                    for (int l = k; l < n + 1; l++) // n + 1, так как включаем вектор B
+                    {
+                        matrix[m, l] -= factor * matrix[k, l];
+                    }
+                }
+            }
+        }
+
+        // Обратный ход
+        private static double[] BackSubstitution(float[,] matrix)
+        {
+            int n = matrix.GetLength(0);
+            double[] X = new double[n];
+
+            for (int i = n - 1; i >= 0; i--)
+            {
+                double sum = 0;
+                for (int j = i + 1; j < n; j++)
+                {
+                    sum += matrix[i, j] * X[j];
+                }
+                X[i] = (matrix[i, n] - sum) / matrix[i, i]; // matrix[i, n] — это элемент вектора B
+            }
+
+            return X;
+        }
+
+        // Основной метод решения системы методом Гаусса с выбором главного элемента
+        public double[] SolveWithPivoting(Matrix matrix)
         {
             int n = matrix.GetLength(0);
             float[,] data = matrix.GetData(); // Получаем данные матрицы
 
-            // Прямой ход метода Гаусса
-            for (int i = 0; i < n; i++)
+            try
             {
-                // Выбор главного элемента по столбцу
-                int maxRow = i;
-                for (int k = i + 1; k < n; k++)
-                {
-                    if (Math.Abs(data[k, i]) > Math.Abs(data[maxRow, i]))
-                    {
-                        maxRow = k;
-                    }
-                }
+                // Прямой ход с выбором главного элемента
+                ForwardEliminationWithPivoting(data);
 
-                // Перестановка строк
-                for (int k = i; k <= n; k++)
-                {
-                    float temp = data[maxRow, k];
-                    data[maxRow, k] = data[i, k];
-                    data[i, k] = temp;
-                }
-
-                // Обнуление элементов ниже главной диагонали
-                for (int k = i + 1; k < n; k++)
-                {
-                    float factor = data[k, i] / data[i, i];
-                    for (int j = i; j <= n; j++)
-                    {
-                        data[k, j] -= factor * data[i, j];
-                    }
-                }
+                // Обратный ход
+                return BackSubstitution(data);
             }
-
-            // Обратный ход метода Гаусса
-            double[] solution = new double[n];
-            for (int i = n - 1; i >= 0; i--)
+            catch (Exception ex)
             {
-                solution[i] = data[i, n] / data[i, i];
-                for (int k = i - 1; k >= 0; k--)
-                {
-                    data[k, n] -= data[k, i] * (float)solution[i];
-                }
+                Console.WriteLine($"Ошибка при решении методом Гаусса с выбором главного элемента: {ex.Message}");
+                throw;
             }
+        }
 
-            return solution;
+        // Основной метод решения системы методом Гаусса без выбора главного элемента
+        public double[] SolveWithoutPivoting(Matrix matrix)
+        {
+            int n = matrix.GetLength(0);
+            float[,] data = matrix.GetData(); // Получаем данные матрицы
+
+            try
+            {
+                // Прямой ход без выбора главного элемента
+                ForwardEliminationWithoutPivoting(data);
+
+                // Обратный ход
+                return BackSubstitution(data);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Ошибка при решении методом Гаусса без выбора главного элемента: {ex.Message}");
+                throw;
+            }
         }
     }
 }
