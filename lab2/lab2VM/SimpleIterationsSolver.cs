@@ -8,13 +8,17 @@ namespace lab2VM
 {
     public class SimpleIterationsSolver
     {
-        public double[] Solve(Matrix matrix, double epsilon = 1e-6, int maxIterations = 1000)
+        public float[] Solve(Matrix matrix, double epsilon = 1e-6, int maxIterations = 1000)
         {
-            int n = matrix.GetLength(0);
+            int n = matrix.GetLength();
             float[,] data = matrix.GetData();
 
-            double[] solution = new double[n];
-            double[] prevSolution = new double[n];
+            float[] solution = new float[n];
+            for (int i = 0; i < n; i++)
+            {
+                solution[i] = data[i, n] / data[i, i];
+            }
+            float[] prevSolution = new float[n];
             int iterations = 0;
 
             do
@@ -22,7 +26,7 @@ namespace lab2VM
                 Array.Copy(solution, prevSolution, n);
                 for (int i = 0; i < n; i++)
                 {
-                    double sum = 0;
+                    float sum = 0;
                     for (int j = 0; j < n; j++)
                     {
                         if (i != j)
@@ -34,13 +38,13 @@ namespace lab2VM
                 }
                 iterations++;
             } while (VectorNormDifference(solution, prevSolution) > epsilon && iterations < maxIterations);
-
+            Console.WriteLine($"Было произведено {iterations} итераций");
             return solution;
         }
 
-        private double VectorNormDifference(double[] a, double[] b)
+        private float VectorNormDifference(float[] a, float[] b)
         {
-            double maxDiff = 0;
+            float maxDiff = 0;
             for (int i = 0; i < a.Length; i++)
             {
                 maxDiff = Math.Max(maxDiff, Math.Abs(a[i] - b[i]));

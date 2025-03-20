@@ -14,7 +14,8 @@ namespace lab2VM
             _size = size;
         }
 
-        public int GetLength(int dimension) => matrix.GetLength(dimension);
+
+        public int GetLength() => matrix.GetLength(0);
 
         public Matrix DeepCopy()
         {
@@ -53,11 +54,11 @@ namespace lab2VM
 
         public void PrintMatrix()
         {
-            for (int i = 0; i < GetLength(0); i++)
+            for (int i = 0; i < GetLength(); i++)
             {
-                for (int j = 0; j < GetLength(1); j++)
+                for (int j = 0; j < GetLength() + 1; j++)
                 {
-                    Console.Write($"{matrix[i, j],10:F2}");
+                    Console.Write($"{matrix[i, j],10:F5}");
                 }
                 Console.WriteLine();
             }

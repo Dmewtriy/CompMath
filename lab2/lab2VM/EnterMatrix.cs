@@ -13,7 +13,7 @@ namespace lab2VM
         public Matrix Matrix { get { return _matrix.DeepCopy(); } }
         public int MatrixSize
         {
-            get { return _matrix.GetLength(0); }
+            get { return _matrix.GetLength(); }
         }
         public EnterMatrix()
         {

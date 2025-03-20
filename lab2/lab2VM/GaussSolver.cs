@@ -24,12 +24,13 @@ namespace lab2VM
         private static void ForwardEliminationWithPivoting(float[,] matrix)
         {
             int n = matrix.GetLength(0);
-
-            for (int k = 0; k < n - 1; k++)
+            float factor = 0.0f;
+            // Перебор столбцов
+            for (int k = 0; k < n; k++)
             {
                 // Выбор главного элемента
                 int maxRow = k;
-                for (int i = k + 1; i < n; i++)
+                for (int i = k; i < n; i++)
                 {
                     if (Math.Abs(matrix[i, k]) > Math.Abs(matrix[maxRow, k]))
                     {
@@ -51,7 +52,7 @@ namespace lab2VM
                 // Обнуление элементов под главной диагональю
                 for (int m = k + 1; m < n; m++)
                 {
-                    float factor = matrix[m, k] / matrix[k, k];
+                    factor = matrix[m, k] / matrix[k, k];
                     for (int l = k; l < n + 1; l++) // n + 1, так как включаем вектор B
                     {
                         matrix[m, l] -= factor * matrix[k, l];
@@ -85,14 +86,14 @@ namespace lab2VM
         }
 
         // Обратный ход
-        private static double[] BackSubstitution(float[,] matrix)
+        private static float[] BackSubstitution(float[,] matrix)
         {
             int n = matrix.GetLength(0);
-            double[] X = new double[n];
+            float[] X = new float[n];
 
             for (int i = n - 1; i >= 0; i--)
             {
-                double sum = 0;
+                float sum = 0;
                 for (int j = i + 1; j < n; j++)
                 {
                     sum += matrix[i, j] * X[j];
@@ -104,9 +105,9 @@ namespace lab2VM
         }
 
         // Основной метод решения системы методом Гаусса с выбором главного элемента
-        public double[] SolveWithPivoting(Matrix matrix)
+        public float[] SolveWithPivoting(Matrix matrix)
         {
-            int n = matrix.GetLength(0);
+            int n = matrix.GetLength();
             float[,] data = matrix.GetData(); // Получаем данные матрицы
 
             try
@@ -125,9 +126,9 @@ namespace lab2VM
         }
 
         // Основной метод решения системы методом Гаусса без выбора главного элемента
-        public double[] SolveWithoutPivoting(Matrix matrix)
+        public float[] SolveWithoutPivoting(Matrix matrix)
         {
-            int n = matrix.GetLength(0);
+            int n = matrix.GetLength();
             float[,] data = matrix.GetData(); // Получаем данные матрицы
 
             try

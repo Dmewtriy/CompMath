@@ -28,7 +28,7 @@ namespace lab2VM
                 string choice = Console.ReadLine();
 
                 GaussSolver gaussSolver = new GaussSolver();
-                double[] solution;
+                float[] solution;
 
                 if (choice == "1")
                 {
@@ -53,7 +53,7 @@ namespace lab2VM
                 if (CheckDiagonalDominance(matrix))
                 {
                     SimpleIterationsSolver iterationsSolver = new SimpleIterationsSolver();
-                    double[] iterationSolution = iterationsSolver.Solve(matrix);
+                    float[] iterationSolution = iterationsSolver.Solve(matrix);
                     PrintSolution(iterationSolution);
                 }
                 else
@@ -69,29 +69,52 @@ namespace lab2VM
 
         private static bool CheckDiagonalDominance(Matrix matrix)
         {
-            int n = matrix.GetLength(0);
+            int n = matrix.GetLength();
             float[,] data = matrix.GetData();
+            bool f1 = false, f2 = false;
 
+            // Проверка диагонального преобладания по строкам
             for (int i = 0; i < n; i++)
             {
                 float diagonal = Math.Abs(data[i, i]);
-                float sum = 0;
+                float rowSum = 0;
                 for (int j = 0; j < n; j++)
                 {
                     if (i != j)
                     {
-                        sum += Math.Abs(data[i, j]);
+                        rowSum += Math.Abs(data[i, j]);
                     }
                 }
-                if (diagonal <= sum)
+                if (diagonal <= rowSum)
                 {
-                    return false;
+                    return f1; // Нет диагонального преобладания в строке
                 }
             }
-            return true;
+            f1 = true;
+
+            // Проверка диагонального преобладания по столбцам
+            for (int j = 0; j < n; j++)
+            {
+                float diagonal = Math.Abs(data[j, j]);
+                float columnSum = 0;
+                for (int i = 0; i < n; i++)
+                {
+                    if (i != j)
+                    {
+                        columnSum += Math.Abs(data[i, j]);
+                    }
+                }
+                if (diagonal <= columnSum)
+                {
+                    return f2; // Нет диагонального преобладания в столбце
+                }
+            }
+            f2 = true;
+
+            return (f1 || f2); // Диагональное преобладание есть и по строкам, и по столбцам
         }
 
-        private static void PrintSolution(double[] solution)
+        private static void PrintSolution(float[] solution)
         {
             Console.WriteLine("Решение:");
             for (int i = 0; i < solution.Length; i++)
