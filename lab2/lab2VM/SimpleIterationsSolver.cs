@@ -35,7 +35,7 @@ namespace lab2VM
 
             alpha = MatrixNorm(dataCopy);
             if (alpha > 1) Console.WriteLine("Норма матрицы больше или равна 1. Сходимость не гарантирована.");
-            Console.WriteLine(alpha.ToString());
+            Console.WriteLine($"\nalpha = {alpha}");
 
             do
             {

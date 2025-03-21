@@ -34,9 +34,9 @@ namespace lab2VM
             alpha[0] = augmentedMatrix[0, 1] / augmentedMatrix[0, 0];
             beta[0] = augmentedMatrix[0, n] / augmentedMatrix[0, 0];
 
-            for (int i = 0; i < n; i++)
+            for (int i = 1; i < n; i++)
             {
-                float c = (i > 0) ? augmentedMatrix[i, i - 1] : 0;
+                float c = augmentedMatrix[i, i - 1];
                 float d = augmentedMatrix[i, i];
                 float e = (i < n - 1) ? augmentedMatrix[i, i + 1] : 0;
                 float b = augmentedMatrix[i, n];
@@ -46,10 +46,10 @@ namespace lab2VM
                 beta[i] = (b - c * beta[i - 1]) / denom;
             }
 
-            x[n - 1] = beta[n - 1];
+            x[n-1] = beta[n-1];
             for (int i = n - 2; i >= 0; i--)
             {
-                x[i] = alpha[i] * x[i + 1] + beta[i];
+                x[i] = -alpha[i] * x[i+1] + beta[i];
             }
 
             return x;

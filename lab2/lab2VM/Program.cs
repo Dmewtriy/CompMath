@@ -32,9 +32,9 @@ namespace lab2VM
                 GaussSolver gaussSolver = new GaussSolver();
                 float[] solution;
 
-                matrix[0] = new float[]{ 6, 2, 0, 3 };
-                matrix[1] = new float[]{ 3, 9, 1, 4 };      
-                matrix[2] = new float[]{ 0, 6, 7, 5 };
+                matrix[0] = new float[]{ 2, -1, 0, 3 };
+                matrix[1] = new float[]{ 5, 8, 2, 6 };      
+                matrix[2] = new float[]{ 0, 1, 3, 2 };
 
                 if (choice == "1")
                 {
@@ -82,7 +82,7 @@ namespace lab2VM
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Ошибка: {ex.Message}");
+                Console.WriteLine($"Ошибка: {ex}");
             }
         }
 
