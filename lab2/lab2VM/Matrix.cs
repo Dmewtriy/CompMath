@@ -26,6 +26,40 @@ namespace lab2VM
             return newMatrix;
         }
 
+        public float[] this[int i]
+        {
+            get
+            {
+                if (i >= 0 && i < matrix.GetLength(0))
+                {
+                    float[] x = new float[GetLength()];
+                    for (int j = 0; j < GetLength() + 1; j++)
+                    {
+                        x[j] = matrix[i,j];
+                    }
+                    return x;
+                }
+                else
+                {
+                    throw new IndexOutOfRangeException();
+                }
+            }
+            set
+            {
+                if (i >= 0 && i < matrix.GetLength(0))
+                {
+                    for (int j = 0; j < GetLength() + 1; j++)
+                    {
+                        matrix[i, j] = value[j];
+                    }
+                }
+                else
+                {
+                    throw new IndexOutOfRangeException();
+                }
+            }
+        }
+
         public float this[int i, int j]
         {
             get

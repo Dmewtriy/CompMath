@@ -14,8 +14,10 @@ namespace lab2VM
             try
             {
                 // Ввод матрицы
-                EnterMatrix enterMatrix = new EnterMatrix();
-                Matrix matrix = enterMatrix.Matrix;
+                /*EnterMatrix enterMatrix = new EnterMatrix();
+                Matrix matrix = enterMatrix.Matrix;*/
+
+                Matrix matrix = new Matrix(3);
 
                 Console.WriteLine("\nИсходная матрица:");
                 matrix.PrintMatrix();
@@ -29,6 +31,10 @@ namespace lab2VM
 
                 GaussSolver gaussSolver = new GaussSolver();
                 float[] solution;
+
+                matrix[0] = new float[]{ 6, 2, 0, 3 };
+                matrix[1] = new float[]{ 3, 9, 1, 4 };      
+                matrix[2] = new float[]{ 0, 6, 7, 5 };
 
                 if (choice == "1")
                 {
@@ -60,6 +66,19 @@ namespace lab2VM
                 {
                     Console.WriteLine("Матрица не удовлетворяет условию диагонального преобладания. Метод простых итераций может не сходиться.");
                 }
+
+                Console.WriteLine("\nМетод прогонки:");
+
+                if (TriDiagonal.IsTridiagonal(matrix.GetData()))
+                {
+                    float[] triDiagonalSolution = TriDiagonal.Solve(matrix.GetData());
+                    PrintSolution(triDiagonalSolution);
+                }
+                else
+                {
+                    Console.WriteLine("Матрица не трехдиагональная.");
+                }
+
             }
             catch (Exception ex)
             {
@@ -71,7 +90,7 @@ namespace lab2VM
         {
             int n = matrix.GetLength();
             float[,] data = matrix.GetData();
-            bool f1 = false, f2 = false;
+/*            bool f1 = false, f2 = false;*/
 
             // Проверка диагонального преобладания по строкам
             for (int i = 0; i < n; i++)
@@ -87,12 +106,12 @@ namespace lab2VM
                 }
                 if (diagonal <= rowSum)
                 {
-                    return f1; // Нет диагонального преобладания в строке
+                    return false; // Нет диагонального преобладания в строке
                 }
             }
-            f1 = true;
+            return true;
 
-            // Проверка диагонального преобладания по столбцам
+            /*// Проверка диагонального преобладания по столбцам
             for (int j = 0; j < n; j++)
             {
                 float diagonal = Math.Abs(data[j, j]);
@@ -111,7 +130,7 @@ namespace lab2VM
             }
             f2 = true;
 
-            return (f1 || f2); // Диагональное преобладание есть и по строкам, и по столбцам
+            return (f1 || f2); // Диагональное преобладание есть и по строкам, и по столбцам*/
         }
 
         private static void PrintSolution(float[] solution)
