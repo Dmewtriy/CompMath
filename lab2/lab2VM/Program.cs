@@ -14,10 +14,13 @@ namespace lab2VM
             try
             {
                 // Ввод матрицы
-                /*EnterMatrix enterMatrix = new EnterMatrix();
-                Matrix matrix = enterMatrix.Matrix;*/
+                //EnterMatrix enterMatrix = new EnterMatrix();
+                //Matrix matrix = enterMatrix.Matrix;
 
                 Matrix matrix = new Matrix(3);
+                matrix[2] = new float[4] {3, 1, 5, 12};
+                matrix[1] = new float[4] {0, 7, 3, 10};
+                matrix[0] = new float[4] {8, 1, 1, 18};
 
                 Console.WriteLine("\nИсходная матрица:");
                 matrix.PrintMatrix();
@@ -31,10 +34,6 @@ namespace lab2VM
 
                 GaussSolver gaussSolver = new GaussSolver();
                 float[] solution;
-
-                matrix[0] = new float[]{ 2, -1, 0, 3 };
-                matrix[1] = new float[]{ 5, 8, 2, 6 };      
-                matrix[2] = new float[]{ 0, 1, 3, 2 };
 
                 if (choice == "1")
                 {
@@ -59,12 +58,15 @@ namespace lab2VM
                 if (CheckDiagonalDominance(matrix))
                 {
                     SimpleIterationsSolver iterationsSolver = new SimpleIterationsSolver();
-                    float[] iterationSolution = iterationsSolver.Solve(matrix);
+                    float[] iterationSolution = iterationsSolver.SolveWithChecking(matrix);
                     PrintSolution(iterationSolution);
                 }
                 else
                 {
                     Console.WriteLine("Матрица не удовлетворяет условию диагонального преобладания. Метод простых итераций может не сходиться.");
+                    SimpleIterationsSolver iterationsSolver = new SimpleIterationsSolver();
+                    float[] iterationSolution = iterationsSolver.SolveWithOutChecking(matrix);
+                    PrintSolution(iterationSolution);
                 }
 
                 Console.WriteLine("\nМетод прогонки:");
@@ -82,7 +84,7 @@ namespace lab2VM
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Ошибка: {ex}");
+                Console.WriteLine($"Ошибка: {ex.Message}");
             }
         }
 

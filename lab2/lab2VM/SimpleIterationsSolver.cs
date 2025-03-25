@@ -8,7 +8,7 @@ namespace lab2VM
 {
     public class SimpleIterationsSolver
     {
-        public float[] Solve(Matrix matrix, double epsilon = 1e-3, int maxIterations = 10000)
+        public float[] SolveWithChecking(Matrix matrix, double epsilon = 1e-3, int maxIterations = 10000)
         {
             int n = matrix.GetLength();
             float[,] data = matrix.GetData();
@@ -27,9 +27,83 @@ namespace lab2VM
 
             for(int i = 0; i < n; i++)
             {
-                for (int j = 0; j < n; j++)
+                for (int j = 0; j <= n; j++)
                 {
-                    dataCopy[i, j] = -data[i, j] / data[i, i];
+                    if (i != j && j != n)
+                    {
+                        dataCopy[i, j] = -data[i, j] / data[i, i];
+                    }
+                    else if (i == j && j != n)
+                    {
+                        dataCopy[i, i] = 0;
+                    }
+                    if (j == n)
+                    {
+                        dataCopy[i, n] = data[i, n] / data[i, i];
+                    }
+                }
+            }
+            
+
+            alpha = MatrixNorm(dataCopy);
+            if (alpha > 1) Console.WriteLine("Норма матрицы больше или равна 1. Сходимость не гарантирована.");
+            Console.WriteLine($"\nalpha = {alpha}");
+
+            do
+            {
+                Array.Copy(solution, prevSolution, n);
+                for (int i = 0; i < n; i++)
+                {
+                    float sum = 0;
+                    for (int j = 0; j < n; j++)
+                    {
+                        if (i != j)
+                        {
+                            sum += dataCopy[i, j] * prevSolution[j];
+                        }
+                    }
+                    solution[i] = dataCopy[i, n] + sum;
+                }
+                iterations++;
+                if (iterations > maxIterations) break;
+            } while (VectorNorm(VectorDifference(prevSolution, solution)) > Math.Abs(1 - alpha) / alpha * epsilon);
+            Console.WriteLine($"Было произведено {iterations} итераций");
+            return solution;
+        }
+
+        public float[] SolveWithOutChecking(Matrix matrix, double epsilon = 1e-3, int maxIterations = 10000)
+        {
+            int n = matrix.GetLength();
+            float[,] data = matrix.GetData();
+
+            double alpha = 0;
+
+            float[] solution = new float[n];
+            for (int i = 0; i < n; i++)
+            {
+                solution[i] = data[i, n] / data[i, i];
+            }
+            float[] prevSolution = new float[n];
+            int iterations = 0;
+
+            float[,] dataCopy = matrix.GetData();
+
+            for (int i = 0; i < n; i++)
+            {
+                for (int j = 0; j <= n; j++)
+                {
+                    if (i != j && j != n)
+                    {
+                        dataCopy[i, j] = -data[i, j] / data[i, i];
+                    }
+                    else if (i == j && j != n)
+                    {
+                        dataCopy[i, i] = 0;
+                    }
+                    if (j == n)
+                    {
+                        dataCopy[i, n] = data[i, n] / data[i, i];
+                    }
                 }
             }
 
@@ -47,14 +121,14 @@ namespace lab2VM
                     {
                         if (i != j)
                         {
-                            sum += data[i, j] * prevSolution[j];
+                            sum += dataCopy[i, j] * prevSolution[j];
                         }
                     }
-                    solution[i] = (data[i, n] - sum) / data[i, i];
+                    solution[i] = dataCopy[i, n] + sum;
                 }
                 iterations++;
                 if (iterations > maxIterations) break;
-            } while (VectorNorm(VectorDifference(prevSolution, solution)) > Math.Abs(1 - alpha) / alpha * epsilon);
+            } while (VectorNorm(VectorDifference(prevSolution, solution)) > epsilon);
             Console.WriteLine($"Было произведено {iterations} итераций");
             return solution;
         }
