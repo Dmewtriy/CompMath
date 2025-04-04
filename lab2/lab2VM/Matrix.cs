@@ -8,26 +8,59 @@ namespace lab2VM
         private readonly short _size;
         public static readonly int MAXSIZE = 7;
 
-        public Matrix(short size) 
+        public Matrix(short size)
         {
             matrix = new float[size, size + 1];
             _size = size;
         }
 
-        public int GetLength(int dimension)
-        {
-            return matrix.GetLength(dimension);
-        }
 
-        public Matrix DeepCopy() 
+        public int GetLength() => matrix.GetLength(0);
+
+        public Matrix DeepCopy()
         {
-            return new Matrix
+            var newMatrix = new Matrix(_size)
             {
-                matrix = (float[,])matrix.Clone(),
+                matrix = (float[,])matrix.Clone()
             };
+            return newMatrix;
         }
 
-        public float this[int i, int j] 
+        public float[] this[int i]
+        {
+            get
+            {
+                if (i >= 0 && i < matrix.GetLength(0))
+                {
+                    float[] x = new float[GetLength()];
+                    for (int j = 0; j < GetLength() + 1; j++)
+                    {
+                        x[j] = matrix[i,j];
+                    }
+                    return x;
+                }
+                else
+                {
+                    throw new IndexOutOfRangeException();
+                }
+            }
+            set
+            {
+                if (i >= 0 && i < matrix.GetLength(0))
+                {
+                    for (int j = 0; j < GetLength() + 1; j++)
+                    {
+                        matrix[i, j] = value[j];
+                    }
+                }
+                else
+                {
+                    throw new IndexOutOfRangeException();
+                }
+            }
+        }
+
+        public float this[int i, int j]
         {
             get
             {
@@ -40,7 +73,6 @@ namespace lab2VM
                     throw new IndexOutOfRangeException();
                 }
             }
-
             set
             {
                 if (i >= 0 && i < matrix.GetLength(0) && j >= 0 && j < matrix.GetLength(1))
@@ -56,15 +88,20 @@ namespace lab2VM
 
         public void PrintMatrix()
         {
-            for (int i = 0; i < GetLength(0); i++)
+            for (int i = 0; i < GetLength(); i++)
             {
-                for (int j = 0; j < GetLength(1); j++)
+                for (int j = 0; j < GetLength() + 1; j++)
                 {
-                    Console.Write(matrix[i, j]);
-                    Console.Write(' ');
+                    Console.Write($"{matrix[i, j],10:F5}");
                 }
                 Console.WriteLine();
             }
+        }
+
+        // Метод для получения данных матрицы
+        public float[,] GetData()
+        {
+            return (float[,])matrix.Clone();
         }
     }
 }

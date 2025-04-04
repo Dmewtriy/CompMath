@@ -13,7 +13,7 @@ namespace lab2VM
         public Matrix Matrix { get { return _matrix.DeepCopy(); } }
         public int MatrixSize
         {
-            get { return _matrix.GetLength(0); }
+            get { return _matrix.GetLength(); }
         }
         public EnterMatrix()
         {
@@ -50,31 +50,5 @@ namespace lab2VM
             }
             return x;
         }
-
-        /*private void Transformation()
-        {
-            bool found;
-            for (int i = 0; i < MatrixSize; i++)
-            {
-                if (_matrix[i, i] == 0)
-                {
-                    found = false;
-                    for (int j = i + 1; j < MatrixSize; j++)
-                    {
-                        if (_matrix[j, i] != 0)
-                        {
-                            SwapRows(_matrix, i, j);
-                            found = true;
-                            break;
-                        }
-                    }
-
-                    if (!found)
-                    {
-                        throw new Exception("Невозможно избавиться от нулей на главной диагонали");
-                    }
-                }
-            }
-        }*/
     }
 }
