@@ -18,9 +18,9 @@ namespace lab2VM
                 //Matrix matrix = enterMatrix.Matrix;
 
                 Matrix matrix = new Matrix(3);
-                matrix[2] = new float[4] {3, 1, 5, 12};
-                matrix[1] = new float[4] {0, 7, 3, 10};
-                matrix[0] = new float[4] {8, 1, 1, 18};
+                matrix[0] = new float[4] {2, 1, 0, 18};
+                matrix[1] = new float[4] {1, 3, 1, 10};
+                matrix[2] = new float[4] {0, 2, 4, 18};
 
                 Console.WriteLine("\nИсходная матрица:");
                 matrix.PrintMatrix();
