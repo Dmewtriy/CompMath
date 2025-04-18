@@ -6,8 +6,35 @@ using System.Threading.Tasks;
 
 namespace lab4
 {
-    internal class Spline
+    public class SplineInterpreter
     {
+        public double[] x;
+        public double[] phi;
+        public double[] limits = new double[2];
+
+        public SplineInterpreter(double[] x, double[] phi, double[] limits)
+        {
+            this.x = x;
+            this.phi = phi;
+            this.limits = limits;
+        }
+
+        public SplineInterpreter(int n)
+        {
+            x = new double[n];
+            phi = new double[n];
+        }
+
+        public SplineInterpreter()
+        {
+
+        }
+    }
+
+    public class Spline
+    {
+        private const double step = 0.02;
+
         private double[] a;
         private double[] b;
         private double[] c;
@@ -28,6 +55,9 @@ namespace lab4
 
             n = x.Length;
 
+            this.x = x;
+            this.y = y;
+
             a = new double[n - 1];
             b = new double[n - 1];
             c = new double[n - 1];
@@ -37,6 +67,38 @@ namespace lab4
 
             SetIntervals();
 
+
+        }
+
+        public List<SplineInterpreter> Phi_fun(int numSpline)
+        {
+
+            List<SplineInterpreter> splineData = new List<SplineInterpreter>();
+
+
+            for (int i = 0; i < n; i++)
+            {
+                // Определяем число точек как интервал деленный на шаг
+                int numPoint = (int)Math.Ceiling(h[i] / step);
+                SplineInterpreter splineElement = new SplineInterpreter(numPoint);
+
+                splineElement.limits[0] = x[i];
+                splineElement.limits[1] = x[i + 1];               
+
+                for (int j = 0; j < numPoint; j++)
+                {
+                    splineElement.x[j] = x[i] + step * j;
+                    splineElement.phi[j] = GetPhi(splineElement.x[j], i);
+                }
+                splineData.Add(splineElement);
+            }
+            return splineData;
+        }
+
+        private double GetPhi(double arg, int numberSpline)
+        {
+            return a[numberSpline] + b[numberSpline] * (arg - x[numberSpline]) + c[numberSpline] * Math.Pow(arg - x[numberSpline], 2) 
+                + d[numberSpline] * Math.Pow(arg - x[numberSpline], 3);
         }
 
         private void SetIntervals()
