@@ -22,10 +22,10 @@ namespace lab3
         public override double Calculate(double x)
         {
             double result = 0;
-
+            double term;
             for (int i = 0; i < Count; i++)
             {
-                double term = Y[i];
+                term = Y[i];
                 for (int j = 0; j < Count; j++)
                 {
                     if (j != i)
