@@ -58,17 +58,52 @@ namespace lab4
             this.x = x;
             this.y = y;
 
-            a = new double[n - 1];
-            b = new double[n - 1];
-            c = new double[n - 1];
-            d = new double[n - 1];
+            a = new double[n];
+            b = new double[n];
+            c = new double[n];
+            d = new double[n];
 
             h = new double[n - 1];
 
             SetIntervals();
-
+            FindCoefficients();
 
         }
+
+        private void FindCoefficients()
+        {
+            FindCoeffC();
+
+            for (int i = 0; i < n - 1; i++) 
+            {
+                a[i] = FindCoeffA(i);
+                b[i] = FindCoeffB(i);
+                d[i] = FindCoeffD(i);
+            }
+
+            
+        }
+
+        private double FindCoeffA(int index)
+        {
+            return y[index + 1] - y[index];
+        }
+        private double FindCoeffB(int index)
+        {
+            return 0.0;
+        }
+        private void FindCoeffC()
+        {
+            for (int i = 0; i < n - 1; i++) 
+            {
+
+            }
+        }
+        private double FindCoeffD(int index)
+        {
+            return 0.0;
+        }
+
 
         public List<SplineInterpreter> Phi_fun(int numSpline)
         {
@@ -76,7 +111,7 @@ namespace lab4
             List<SplineInterpreter> splineData = new List<SplineInterpreter>();
 
 
-            for (int i = 0; i < n; i++)
+            for (int i = 0; i < n - 1; i++)
             {
                 // Определяем число точек как интервал деленный на шаг
                 int numPoint = (int)Math.Ceiling(h[i] / step);
