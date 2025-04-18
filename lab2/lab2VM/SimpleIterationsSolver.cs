@@ -8,12 +8,12 @@ namespace lab2VM
 {
     public class SimpleIterationsSolver
     {
-        public float[] SolveWithChecking(Matrix matrix, double epsilon = 1e-3, int maxIterations = 10000)
+        public float[] SolveWithChecking(Matrix matrix, int maxIterations = 10000)
         {
             int n = matrix.GetLength();
             float[,] data = matrix.GetData();
-
             double alpha = 0;
+            float epsilon = 1E-37F;
 
             float[] solution = new float[n];
             for (int i = 0; i < n; i++)
