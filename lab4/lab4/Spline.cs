@@ -35,14 +35,11 @@ namespace lab4
 
             h = new double[n - 1];
 
-            SetBins();
+            SetIntervals();
 
         }
 
-
-        
-
-        private void SetBins()
+        private void SetIntervals()
         {
             for (int i = 0; i < n - 1; i++)
             {
