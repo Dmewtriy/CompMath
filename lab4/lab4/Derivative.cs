@@ -24,13 +24,13 @@ namespace lab4
             n = x.Length;
         }
 
-        public (double[] x, double[] y) FirstDerivative()
+        /*public (double[] x, double[] y) FirstDerivative()
         {
             float a,b,c,d, x_start;
             for (int i = 0; i < n; i++)
             {
 
             }
-        }
+        }*/
     }
 }

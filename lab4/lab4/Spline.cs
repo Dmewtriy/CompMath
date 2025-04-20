@@ -40,17 +40,22 @@ namespace lab4
         private float[] c;
         private float[] d;
 
-        private int n;
+        private readonly int n;
         private float[] x;
         private float[] y;
 
         private float[] h;
 
+        public float[] A => a;
+        public float[] B => b;
+        public float[] C => c;
+        public float[] D => d;
+
         public Spline(float[] x, float[] y)
         {
             if (x.Length != y.Length)
             {
-                throw new ArgumentException("Опа! Ошибка: количество точек не равное");
+                throw new ArgumentException("Ошибка: количество точек не равное.");
             }
 
             n = x.Length;
@@ -84,7 +89,7 @@ namespace lab4
 
         private float FindCoeffA(int index)
         {
-            return y[index + 1] - y[index];
+            return y[index];
         }
         private float FindCoeffB(int index)
         {
@@ -92,21 +97,26 @@ namespace lab4
         }
         private void FindCoeffC()
         {
-            Matrix matrix = new Matrix(3);
+            
+            Matrix matrix = new Matrix(n - 2);
             for (int i = 1; i < n - 1; i++) 
             {
-                if (i == 1)
+                for (int j = 0; j < matrix.GetLength(); j++)
                 {
-                    matrix[i - 1] = new float[4] { h[i - 1] * c[i - 1], h[i - 1] + h[i], h[i], 3 * ((y[i + 1] - y[i]) / h[i] - (y[i] - y[i - 1]) / h[i - 1]) };
+                    if (j == i - 2)
+                    {
+                        matrix[i - 1, j] = h[i - 1];
+                    }
+                    else if (j == i - 1)
+                    {
+                        matrix[i - 1, j] = 2 * (h[i - 1] + h[i]);
+                    }
+                    else if (j == i)
+                    {
+                        matrix[i - 1, j] = h[i];
+                    }
                 }
-                else if (i == n - 2)
-                {
-                    matrix[i - 1] = new float[4] { h[i - 1], h[i - 1] + h[i], h[i] * c[i + 1], 3 * ((y[i + 1] - y[i]) / h[i] - (y[i] - y[i - 1]) / h[i - 1]) };
-                }
-                else
-                {
-                    matrix[i - 1] = new float[4] { h[i - 1], h[i - 1] + h[i], h[i], 3 * ((y[i + 1] - y[i]) / h[i] - (y[i] - y[i - 1]) / h[i - 1]) };
-                }
+                matrix[i - 1, n - 2] = 3 * ((y[i + 1] - y[i]) / h[i] - (y[i] - y[i - 1]) / h[i - 1]);
                 //h[i - 1] * c[i - 1] + 2 * (h[i - 1] + h[i]) * c[i] + h[i] * c[i + 1]
                 // = 3 * ((y[i + 1] - y[i]) / h[i] - (y[i] - y[i - 1]) / h[i - 1])
             }
@@ -131,7 +141,7 @@ namespace lab4
         }
 
 
-        public List<SplineInterpreter> Phi_fun(int numSpline)
+        public List<SplineInterpreter> Phi_fun()
         {
 
             List<SplineInterpreter> splineData = new List<SplineInterpreter>();
@@ -169,5 +179,7 @@ namespace lab4
                 h[i] = x[i + 1] - x[i];
             }
         }
+
+        
     }
 }

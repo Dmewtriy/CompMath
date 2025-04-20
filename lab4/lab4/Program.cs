@@ -1,3 +1,6 @@
+using System;
+
+
 namespace lab4
 {
     /*internal static class Program
@@ -14,10 +17,10 @@ namespace lab4
             Application.Run(new Form1());
         }
     }*/
-    using System;
 
     class Program
-    {
+    {/*
+        
         // Определение функции f(x)
         static float Function(float x)
         {
@@ -76,6 +79,30 @@ namespace lab4
                 // Вывод оптимального шага
                 Console.WriteLine($"Оптимальный шаг для точки {x}: {optimalH}, минимальная погрешность: {minError:F6}\n");
             }
+        }
+        */
+
+
+        static void Main()
+        {
+            float[] x = {-1, 0, 1, 2, 3, 4};
+            float[] y = {-2, -2, -7, 1, 14, -2};
+
+            Spline spline = new Spline(x, y);
+
+            List<SplineInterpreter> splines = spline.Phi_fun();
+            Console.WriteLine("Интервал\t\td_i\t\tc_i\t\tb_i\t\ta_i");
+            for (int i = 0; i < x.Length - 1; i++)
+            {
+                Console.WriteLine(
+                    $"[{x[i],3}, {x[i + 1],-3}]\t" +
+                    $"{spline.D[i],-10:F6}\t" +
+                    $"{spline.C[i],-10:F6}\t" +
+                    $"{spline.B[i],-10:F6}\t" +
+                    $"{spline.A[i],-10:F6}"
+                );
+            }
+
         }
     }
 }

@@ -5,10 +5,10 @@ namespace lab4
     public struct Matrix
     {
         private float[,] matrix;
-        private readonly short _size;
+        private readonly int _size;
         public static readonly int MAXSIZE = 7;
 
-        public Matrix(short size)
+        public Matrix(int size)
         {
             matrix = new float[size, size + 1];
             _size = size;
