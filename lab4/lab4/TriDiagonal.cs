@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace lab2VM
+namespace lab4
 {
     internal class TriDiagonal
     {
