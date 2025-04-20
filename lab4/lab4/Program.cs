@@ -80,7 +80,7 @@ namespace lab4
                 Console.WriteLine($"Оптимальный шаг для точки {x}: {optimalH}, минимальная погрешность: {minError:F6}\n");
             }
         }
-        */
+       
 
 
         static void Main()
@@ -111,11 +111,17 @@ namespace lab4
 
             float[] der = splines[0].ComputeFirstDerivative();
 
-            Console.WriteLine("f`");
-            for (int i = 0; i < der.Length; i++)
-            {
-                Console.Write("(" + splines[0].x[i] + ", " + der[i] + ")");
-            }
+        } */
+        /// <summary>
+        ///  The main entry point for the application.
+        /// </summary>
+        [STAThread]
+        static void Main()
+        {
+            // To customize application configuration such as set high DPI settings or default font,
+            // see https://aka.ms/applicationconfiguration.
+            ApplicationConfiguration.Initialize();
+            Application.Run(new Form1());
         }
     }
 }
