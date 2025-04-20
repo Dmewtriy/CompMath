@@ -80,13 +80,13 @@ namespace lab4
                 Console.WriteLine($"Оптимальный шаг для точки {x}: {optimalH}, минимальная погрешность: {minError:F6}\n");
             }
         }
-        */
+       
 
 
         static void Main()
         {
-            float[] x = {-1, 0, 1, 2, 3, 4};
-            float[] y = {-2, -2, -7, 1, 14, -2};
+            float[] x = {-4, -2, 1, 2, 4, 5};
+            float[] y = {-4, 2, -7, 1, 14, -2};
 
             Spline spline = new Spline(x, y);
 
@@ -103,6 +103,17 @@ namespace lab4
                 );
             }
 
+        } */
+        /// <summary>
+        ///  The main entry point for the application.
+        /// </summary>
+        [STAThread]
+        static void Main()
+        {
+            // To customize application configuration such as set high DPI settings or default font,
+            // see https://aka.ms/applicationconfiguration.
+            ApplicationConfiguration.Initialize();
+            Application.Run(new Form1());
         }
     }
 }
