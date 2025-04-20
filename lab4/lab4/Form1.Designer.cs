@@ -1,4 +1,5 @@
 ﻿using System.Windows.Forms;
+using System.Windows.Forms.DataVisualization.Charting;
 
 namespace lab4
 {
@@ -55,6 +56,10 @@ namespace lab4
             yColumn = new DataGridViewTextBoxColumn();
             chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            areaAll = new ChartArea();
+            areaSpline = new ChartArea();
+            areaDer1 = new ChartArea();
+            areaDer2 = new ChartArea();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
             splitContainer1.Panel1.SuspendLayout();
             splitContainer1.Panel2.SuspendLayout();
@@ -281,23 +286,64 @@ namespace lab4
             yColumn.FillWeight = 134.771576F;
             yColumn.HeaderText = "Y";
             yColumn.Name = "yColumn";
-            // 
-            // chart1
-            // 
-            chartArea3.Name = "ChartArea1";
+
+            /*chartArea3.Name = "ChartArea1";
             chart1.ChartAreas.Add(chartArea3);
-            chart1.Dock = DockStyle.Fill;
             legend3.Name = "Legend1";
-            chart1.Legends.Add(legend3);
+            chart1.Legends.Add(legend3);*/
+            areaAll.Name = "areaAll";
+            areaDer1.Name = "areaDer1";
+            areaDer2.Name = "areaDer2";
+            areaSpline.Name = "areaSpline";
+            chart1.ChartAreas.Add(areaAll);
+            chart1.ChartAreas.Add(areaDer1);
+            chart1.ChartAreas.Add(areaDer2);
+            chart1.ChartAreas.Add(areaSpline);
+
+            chart1.Dock = DockStyle.Fill;
             chart1.Location = new Point(0, 0);
             chart1.Name = "chart1";
-            series3.ChartArea = "ChartArea1";
-            series3.Legend = "Legend1";
+            /*series3.Legend = "Legend1";
             series3.Name = "Series1";
-            chart1.Series.Add(series3);
+            chart1.Series.Add(series3);*/
+            
+
             chart1.Size = new Size(967, 587);
             chart1.TabIndex = 0;
             chart1.Text = "chart1";
+            chart1.Titles.Add(new Title
+            {
+                Text = "Все графики",
+                DockedToChartArea = "areaAll",     // <-- привязываем к конкретной области
+                Docking = Docking.Top,
+                Alignment = ContentAlignment.MiddleCenter,
+                Font = new Font("Segoe UI", 12, FontStyle.Bold),
+            });
+            chart1.Titles.Add(new Title
+            {
+                Text = "Кубический сплайн",
+                DockedToChartArea = "areaSpline",     // <-- привязываем к конкретной области
+                Docking = Docking.Top,
+                Alignment = ContentAlignment.MiddleCenter,
+                Font = new Font("Segoe UI", 12, FontStyle.Bold),
+            });
+            chart1.Titles.Add(new Title
+            {
+                Text = "Первая производная",
+                DockedToChartArea = "areaDer1",     // <-- привязываем к конкретной области
+                Docking = Docking.Top,
+                Alignment = ContentAlignment.MiddleCenter,
+                Font = new Font("Segoe UI", 12, FontStyle.Bold),
+            });
+            chart1.Titles.Add(new Title
+            {
+                Text = "Вторая производная",
+                DockedToChartArea = "areaDer2",     // <-- привязываем к конкретной области
+                Docking = Docking.Top,
+                Alignment = ContentAlignment.MiddleCenter,
+                Font = new Font("Segoe UI", 12, FontStyle.Bold),
+            });
+
             // 
             // Form1
             // 
@@ -341,5 +387,9 @@ namespace lab4
         private DataGridViewTextBoxColumn CoefficientB;
         private DataGridViewTextBoxColumn coefficientC;
         private DataGridViewTextBoxColumn coefficientD;
+        private ChartArea areaSpline;
+        private ChartArea areaDer1;
+        private ChartArea areaDer2;
+        private ChartArea areaAll;
     }
 }

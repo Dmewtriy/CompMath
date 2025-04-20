@@ -120,6 +120,8 @@ namespace lab4
             this.x = x;
             this.y = y;
 
+            Array.Sort(this.x, this.y);
+
             a = new float[n];
             b = new float[n];
             c = new float[n];
