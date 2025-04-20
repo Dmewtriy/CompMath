@@ -30,22 +30,27 @@ namespace lab4
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            DataGridViewCellStyle dataGridViewCellStyle7 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle8 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle9 = new DataGridViewCellStyle();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend3 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
             splitContainer1 = new SplitContainer();
             tableLayoutPanel1 = new TableLayoutPanel();
             lblTitle = new Label();
             tableCoefficients = new DataGridView();
+            interval = new DataGridViewTextBoxColumn();
+            coefficientA = new DataGridViewTextBoxColumn();
+            CoefficientB = new DataGridViewTextBoxColumn();
+            coefficientC = new DataGridViewTextBoxColumn();
+            coefficientD = new DataGridViewTextBoxColumn();
             btnSecondDerivative = new Button();
             btnSpline = new Button();
             btnFirstDerivative = new Button();
             btnRemove = new Button();
             btnAdd = new Button();
             tableData = new DataGridView();
-            number = new DataGridViewTextBoxColumn();
             xColumn = new DataGridViewTextBoxColumn();
             yColumn = new DataGridViewTextBoxColumn();
             chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
@@ -104,23 +109,75 @@ namespace lab4
             // 
             lblTitle.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             lblTitle.AutoSize = true;
-            lblTitle.Location = new Point(155, 0);
+            lblTitle.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            lblTitle.Location = new Point(0, 0);
             lblTitle.Name = "lblTitle";
-            lblTitle.Size = new Size(38, 36);
+            lblTitle.Size = new Size(348, 36);
             lblTitle.TabIndex = 0;
-            lblTitle.Text = "label1";
+            lblTitle.Text = "Коэффициенты функции кубического сплайна ";
             lblTitle.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // tableCoefficients
             // 
+            tableCoefficients.AllowUserToAddRows = false;
+            tableCoefficients.AllowUserToDeleteRows = false;
             tableCoefficients.Anchor = AnchorStyles.Left | AnchorStyles.Right;
             tableCoefficients.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            tableCoefficients.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+            dataGridViewCellStyle7.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle7.BackColor = SystemColors.Control;
+            dataGridViewCellStyle7.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle7.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle7.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle7.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle7.WrapMode = DataGridViewTriState.True;
+            tableCoefficients.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
             tableCoefficients.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            tableCoefficients.Columns.AddRange(new DataGridViewColumn[] { interval, coefficientA, CoefficientB, coefficientC, coefficientD });
             tableCoefficients.Location = new Point(12, 420);
             tableCoefficients.Name = "tableCoefficients";
+            tableCoefficients.ReadOnly = true;
+            tableCoefficients.RowHeadersVisible = false;
             tableCoefficients.RowTemplate.Height = 25;
             tableCoefficients.Size = new Size(348, 150);
             tableCoefficients.TabIndex = 6;
+            // 
+            // interval
+            // 
+            interval.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            interval.FillWeight = 253.807114F;
+            interval.HeaderText = "Интервал";
+            interval.Name = "interval";
+            interval.ReadOnly = true;
+            interval.Width = 95;
+            // 
+            // coefficientA
+            // 
+            coefficientA.FillWeight = 61.54822F;
+            coefficientA.HeaderText = "aᵢ";
+            coefficientA.Name = "coefficientA";
+            coefficientA.ReadOnly = true;
+            // 
+            // CoefficientB
+            // 
+            CoefficientB.FillWeight = 61.54822F;
+            CoefficientB.HeaderText = "bᵢ";
+            CoefficientB.Name = "CoefficientB";
+            CoefficientB.ReadOnly = true;
+            // 
+            // coefficientC
+            // 
+            coefficientC.FillWeight = 61.54822F;
+            coefficientC.HeaderText = "cᵢ";
+            coefficientC.Name = "coefficientC";
+            coefficientC.ReadOnly = true;
+            // 
+            // coefficientD
+            // 
+            coefficientD.FillWeight = 61.54822F;
+            coefficientD.HeaderText = "dᵢ";
+            coefficientD.Name = "coefficientD";
+            coefficientD.ReadOnly = true;
             // 
             // btnSecondDerivative
             // 
@@ -132,6 +189,7 @@ namespace lab4
             btnSecondDerivative.TabIndex = 5;
             btnSecondDerivative.Text = "Вторая производная";
             btnSecondDerivative.UseVisualStyleBackColor = true;
+            btnSecondDerivative.Click += btnSecondDerivative_Click;
             // 
             // btnSpline
             // 
@@ -143,6 +201,7 @@ namespace lab4
             btnSpline.TabIndex = 4;
             btnSpline.Text = "Кубический сплайн";
             btnSpline.UseVisualStyleBackColor = true;
+            btnSpline.Click += btnSpline_Click;
             // 
             // btnFirstDerivative
             // 
@@ -154,6 +213,7 @@ namespace lab4
             btnFirstDerivative.TabIndex = 3;
             btnFirstDerivative.Text = "Первая производная";
             btnFirstDerivative.UseVisualStyleBackColor = true;
+            btnFirstDerivative.Click += btnFirstDerivative_Click;
             // 
             // btnRemove
             // 
@@ -183,44 +243,32 @@ namespace lab4
             // tableData
             // 
             tableData.AllowUserToAddRows = false;
-            tableData.AllowUserToDeleteRows = false;
             tableData.Anchor = AnchorStyles.Left | AnchorStyles.Right;
             tableData.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = SystemColors.Control;
-            dataGridViewCellStyle1.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            dataGridViewCellStyle1.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
-            tableData.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle8.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle8.BackColor = SystemColors.Control;
+            dataGridViewCellStyle8.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle8.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle8.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle8.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle8.WrapMode = DataGridViewTriState.True;
+            tableData.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle8;
             tableData.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            tableData.Columns.AddRange(new DataGridViewColumn[] { number, xColumn, yColumn });
-            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = SystemColors.Window;
-            dataGridViewCellStyle2.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            dataGridViewCellStyle2.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
-            tableData.DefaultCellStyle = dataGridViewCellStyle2;
+            tableData.Columns.AddRange(new DataGridViewColumn[] { xColumn, yColumn });
+            dataGridViewCellStyle9.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle9.BackColor = SystemColors.Window;
+            dataGridViewCellStyle9.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle9.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle9.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle9.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle9.WrapMode = DataGridViewTriState.False;
+            tableData.DefaultCellStyle = dataGridViewCellStyle9;
             tableData.Location = new Point(12, 168);
             tableData.Name = "tableData";
             tableData.RowHeadersVisible = false;
             tableData.RowTemplate.Height = 25;
             tableData.Size = new Size(348, 150);
             tableData.TabIndex = 0;
-            // 
-            // number
-            // 
-            number.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-            number.FillWeight = 30.456852F;
-            number.Frozen = true;
-            number.HeaderText = "№";
-            number.Name = "number";
-            number.ReadOnly = true;
-            number.Resizable = DataGridViewTriState.False;
-            number.Width = 31;
             // 
             // xColumn
             // 
@@ -236,17 +284,17 @@ namespace lab4
             // 
             // chart1
             // 
-            chartArea1.Name = "ChartArea1";
-            chart1.ChartAreas.Add(chartArea1);
+            chartArea3.Name = "ChartArea1";
+            chart1.ChartAreas.Add(chartArea3);
             chart1.Dock = DockStyle.Fill;
-            legend1.Name = "Legend1";
-            chart1.Legends.Add(legend1);
+            legend3.Name = "Legend1";
+            chart1.Legends.Add(legend3);
             chart1.Location = new Point(0, 0);
             chart1.Name = "chart1";
-            series1.ChartArea = "ChartArea1";
-            series1.Legend = "Legend1";
-            series1.Name = "Series1";
-            chart1.Series.Add(series1);
+            series3.ChartArea = "ChartArea1";
+            series3.Legend = "Legend1";
+            series3.Name = "Series1";
+            chart1.Series.Add(series3);
             chart1.Size = new Size(967, 587);
             chart1.TabIndex = 0;
             chart1.Text = "chart1";
@@ -286,8 +334,12 @@ namespace lab4
         private DataGridView tableCoefficients;
         private TableLayoutPanel tableLayoutPanel1;
         private Label lblTitle;
-        private DataGridViewTextBoxColumn number;
         private DataGridViewTextBoxColumn xColumn;
         private DataGridViewTextBoxColumn yColumn;
+        private DataGridViewTextBoxColumn interval;
+        private DataGridViewTextBoxColumn coefficientA;
+        private DataGridViewTextBoxColumn CoefficientB;
+        private DataGridViewTextBoxColumn coefficientC;
+        private DataGridViewTextBoxColumn coefficientD;
     }
 }
