@@ -12,6 +12,8 @@ namespace lab4
         public float[] phi;
         public float[] limits = new float[2];
 
+        private float[] firstDerY;
+
         public SplineInterpreter(float[] x, float[] phi, float[] limits)
         {
             this.x = x;
@@ -39,18 +41,46 @@ namespace lab4
             {
                 if (i == 0) // Левая граница
                 {
-                    float deltaX = x[1] - x[0]; // Предполагаем равномерный шаг
-                    derivative[i] = (-3 * phi[0] + 4 * phi[1] - phi[2]) / (2 * deltaX);
+                    float deltaX = x[1] - x[0];
+                    derivative[i] = (phi[1] - phi[0]) / (deltaX);
                 }
                 else if (i == n - 1) // Правая граница
                 {
-                    float deltaX = x[n - 1] - x[n - 2]; // Предполагаем равномерный шаг
-                    derivative[i] = (3 * phi[n - 1] - 4 * phi[n - 2] + phi[n - 3]) / (2 * deltaX);
+                    float deltaX = x[n - 1] - x[n - 2];
+                    derivative[i] = (phi[n - 1] - phi[n - 2]) / (deltaX);
                 }
                 else // Внутренние точки
                 {
-                    float deltaX = x[i + 1] - x[i - 1]; // Шаг между точками
+                    float deltaX = x[i + 1] - x[i - 1];
                     derivative[i] = (phi[i + 1] - phi[i - 1]) / deltaX;
+                }
+            }
+
+            return derivative;
+        }
+
+        public float[] ComputeSecondDerivative()
+        {
+            firstDerY = ComputeFirstDerivative();
+            int n = x.Length;
+            float[] derivative = new float[n];
+
+            for (int i = 0; i < n; i++)
+            {
+                if (i == 0) // Левая граница
+                {
+                    float deltaX = x[1] - x[0];
+                    derivative[i] = (firstDerY[1] - firstDerY[0]) / (deltaX);
+                }
+                else if (i == n - 1) // Правая граница
+                {
+                    float deltaX = x[n - 1] - x[n - 2];
+                    derivative[i] = (firstDerY[n - 1] - firstDerY[n - 2]) / (deltaX);
+                }
+                else // Внутренние точки
+                {
+                    float deltaX = x[i + 1] - x[i - 1];
+                    derivative[i] = (firstDerY[i + 1] - firstDerY[i - 1]) / deltaX;
                 }
             }
 
