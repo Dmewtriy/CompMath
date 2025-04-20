@@ -45,11 +45,11 @@ namespace lab4
             btnRemove = new Button();
             btnAdd = new Button();
             tableData = new DataGridView();
-            chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
-            backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             number = new DataGridViewTextBoxColumn();
             xColumn = new DataGridViewTextBoxColumn();
             yColumn = new DataGridViewTextBoxColumn();
+            chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
             splitContainer1.Panel1.SuspendLayout();
             splitContainer1.Panel2.SuspendLayout();
@@ -165,6 +165,7 @@ namespace lab4
             btnRemove.TabIndex = 2;
             btnRemove.Text = "Удалить точку";
             btnRemove.UseVisualStyleBackColor = true;
+            btnRemove.Click += btnRemove_Click;
             // 
             // btnAdd
             // 
@@ -177,6 +178,7 @@ namespace lab4
             btnAdd.TabIndex = 1;
             btnAdd.Text = "Добавить точу";
             btnAdd.UseVisualStyleBackColor = true;
+            btnAdd.Click += btnAdd_Click;
             // 
             // tableData
             // 
@@ -209,23 +211,6 @@ namespace lab4
             tableData.Size = new Size(348, 150);
             tableData.TabIndex = 0;
             // 
-            // chart1
-            // 
-            chartArea1.Name = "ChartArea1";
-            chart1.ChartAreas.Add(chartArea1);
-            chart1.Dock = DockStyle.Fill;
-            legend1.Name = "Legend1";
-            chart1.Legends.Add(legend1);
-            chart1.Location = new Point(0, 0);
-            chart1.Name = "chart1";
-            series1.ChartArea = "ChartArea1";
-            series1.Legend = "Legend1";
-            series1.Name = "Series1";
-            chart1.Series.Add(series1);
-            chart1.Size = new Size(967, 587);
-            chart1.TabIndex = 0;
-            chart1.Text = "chart1";
-            // 
             // number
             // 
             number.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
@@ -248,6 +233,23 @@ namespace lab4
             yColumn.FillWeight = 134.771576F;
             yColumn.HeaderText = "Y";
             yColumn.Name = "yColumn";
+            // 
+            // chart1
+            // 
+            chartArea1.Name = "ChartArea1";
+            chart1.ChartAreas.Add(chartArea1);
+            chart1.Dock = DockStyle.Fill;
+            legend1.Name = "Legend1";
+            chart1.Legends.Add(legend1);
+            chart1.Location = new Point(0, 0);
+            chart1.Name = "chart1";
+            series1.ChartArea = "ChartArea1";
+            series1.Legend = "Legend1";
+            series1.Name = "Series1";
+            chart1.Series.Add(series1);
+            chart1.Size = new Size(967, 587);
+            chart1.TabIndex = 0;
+            chart1.Text = "chart1";
             // 
             // Form1
             // 
