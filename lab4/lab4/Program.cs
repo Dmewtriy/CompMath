@@ -85,8 +85,8 @@ namespace lab4
 
         static void Main()
         {
-            float[] x = {-1, 0, 1, 2, 3, 4};
-            float[] y = {-2, -2, -7, 1, 14, -2};
+            float[] x = {-1, 0, 1, 2, 3};
+            float[] y = {-2, -2, -7, 1, 14};
 
             Spline spline = new Spline(x, y);
 
@@ -96,13 +96,26 @@ namespace lab4
             {
                 Console.WriteLine(
                     $"[{x[i],3}, {x[i + 1],-3}]\t" +
-                    $"{spline.D[i],-10:F6}\t" +
-                    $"{spline.C[i],-10:F6}\t" +
-                    $"{spline.B[i],-10:F6}\t" +
-                    $"{spline.A[i],-10:F6}"
+                    $"{spline.D[i],-10:F3}\t" +
+                    $"{spline.C[i],-10:F3}\t" +
+                    $"{spline.B[i],-10:F3}\t" +
+                    $"{spline.A[i],-10:F3}"
                 );
             }
+            Console.WriteLine("f");
+            for (int i = 0; i < splines[0].x.Length; i++)
+            {
+                Console.Write("(" + splines[0].x[i] + ", " + splines[0].phi[i] + ")");
+            }
+            Console.WriteLine();
 
+            float[] der = splines[0].ComputeFirstDerivative();
+
+            Console.WriteLine("f`");
+            for (int i = 0; i < der.Length; i++)
+            {
+                Console.Write("(" + splines[0].x[i] + ", " + der[i] + ")");
+            }
         }
     }
 }

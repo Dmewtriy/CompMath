@@ -29,6 +29,33 @@ namespace lab4
         {
 
         }
+        // Метод для вычисления первой производной
+        public float[] ComputeFirstDerivative()
+        {
+            int n = x.Length;
+            float[] derivative = new float[n];
+
+            for (int i = 0; i < n; i++)
+            {
+                if (i == 0) // Левая граница
+                {
+                    float deltaX = x[1] - x[0]; // Предполагаем равномерный шаг
+                    derivative[i] = (-3 * phi[0] + 4 * phi[1] - phi[2]) / (2 * deltaX);
+                }
+                else if (i == n - 1) // Правая граница
+                {
+                    float deltaX = x[n - 1] - x[n - 2]; // Предполагаем равномерный шаг
+                    derivative[i] = (3 * phi[n - 1] - 4 * phi[n - 2] + phi[n - 3]) / (2 * deltaX);
+                }
+                else // Внутренние точки
+                {
+                    float deltaX = x[i + 1] - x[i - 1]; // Шаг между точками
+                    derivative[i] = (phi[i + 1] - phi[i - 1]) / deltaX;
+                }
+            }
+
+            return derivative;
+        }
     }
 
     public class Spline
