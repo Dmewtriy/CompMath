@@ -61,30 +61,29 @@ namespace lab4
 
         public float[] ComputeSecondDerivative()
         {
-            firstDerY = ComputeFirstDerivative();
             int n = x.Length;
-            float[] derivative = new float[n];
+            float[] secondDerivative = new float[n];
 
             for (int i = 0; i < n; i++)
             {
-                if (i == 0) // Левая граница
+                if (i == 0) // Левая граница (первый элемент)
                 {
-                    float deltaX = x[1] - x[0];
-                    derivative[i] = (firstDerY[1] - firstDerY[0]) / (deltaX);
+                    float deltaX = x[1] - x[0]; // Предполагаем равномерный шаг
+                    secondDerivative[i] = (phi[2] - 2 * phi[1] + phi[0]) / (deltaX * deltaX);
                 }
-                else if (i == n - 1) // Правая граница
+                else if (i == n - 1) // Правая граница (последний элемент)
                 {
-                    float deltaX = x[n - 1] - x[n - 2];
-                    derivative[i] = (firstDerY[n - 1] - firstDerY[n - 2]) / (deltaX);
+                    float deltaX = x[n - 1] - x[n - 2]; // Предполагаем равномерный шаг
+                    secondDerivative[i] = (phi[n - 1] - 2 * phi[n - 2] + phi[n - 3]) / (deltaX * deltaX);
                 }
                 else // Внутренние точки
                 {
-                    float deltaX = x[i + 1] - x[i - 1];
-                    derivative[i] = (firstDerY[i + 1] - firstDerY[i - 1]) / deltaX;
+                    float deltaX = x[i + 1] - x[i]; // Шаг между точками
+                    secondDerivative[i] = (phi[i + 1] - 2 * phi[i] + phi[i - 1]) / (deltaX * deltaX);
                 }
             }
 
-            return derivative;
+            return secondDerivative;
         }
     }
 
