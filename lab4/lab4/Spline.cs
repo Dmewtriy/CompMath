@@ -8,11 +8,11 @@ namespace lab4
 {
     public class SplineInterpreter
     {
-        public double[] x;
-        public double[] phi;
-        public double[] limits = new double[2];
+        public float[] x;
+        public float[] phi;
+        public float[] limits = new float[2];
 
-        public SplineInterpreter(double[] x, double[] phi, double[] limits)
+        public SplineInterpreter(float[] x, float[] phi, float[] limits)
         {
             this.x = x;
             this.phi = phi;
@@ -21,8 +21,8 @@ namespace lab4
 
         public SplineInterpreter(int n)
         {
-            x = new double[n];
-            phi = new double[n];
+            x = new float[n];
+            phi = new float[n];
         }
 
         public SplineInterpreter()
@@ -33,20 +33,20 @@ namespace lab4
 
     public class Spline
     {
-        private const double step = 0.02;
+        private const float step = 0.02f;
 
-        private double[] a;
-        private double[] b;
-        private double[] c;
-        private double[] d;
+        private float[] a;
+        private float[] b;
+        private float[] c;
+        private float[] d;
 
         private int n;
-        private double[] x;
-        private double[] y;
+        private float[] x;
+        private float[] y;
 
-        private double[] h;
+        private float[] h;
 
-        public Spline(double[] x, double[] y)
+        public Spline(float[] x, float[] y)
         {
             if (x.Length != y.Length)
             {
@@ -58,12 +58,12 @@ namespace lab4
             this.x = x;
             this.y = y;
 
-            a = new double[n];
-            b = new double[n];
-            c = new double[n];
-            d = new double[n];
+            a = new float[n];
+            b = new float[n];
+            c = new float[n];
+            d = new float[n];
 
-            h = new double[n - 1];
+            h = new float[n];
 
             SetIntervals();
             FindCoefficients();
@@ -80,28 +80,54 @@ namespace lab4
                 b[i] = FindCoeffB(i);
                 d[i] = FindCoeffD(i);
             }
-
-            
         }
 
-        private double FindCoeffA(int index)
+        private float FindCoeffA(int index)
         {
             return y[index + 1] - y[index];
         }
-        private double FindCoeffB(int index)
+        private float FindCoeffB(int index)
         {
-            return 0.0;
+            return (y[index + 1] - y[index]) / h[index] - ((c[index + 1] + 2 * c[index]) * h[index]) / 3;
         }
         private void FindCoeffC()
         {
-            for (int i = 0; i < n - 1; i++) 
+            Matrix matrix = new Matrix(3);
+            for (int i = 1; i < n - 1; i++) 
             {
-
+                if (i == 1)
+                {
+                    matrix[i - 1] = new float[4] { h[i - 1] * c[i - 1], h[i - 1] + h[i], h[i], 3 * ((y[i + 1] - y[i]) / h[i] - (y[i] - y[i - 1]) / h[i - 1]) };
+                }
+                else if (i == n - 2)
+                {
+                    matrix[i - 1] = new float[4] { h[i - 1], h[i - 1] + h[i], h[i] * c[i + 1], 3 * ((y[i + 1] - y[i]) / h[i] - (y[i] - y[i - 1]) / h[i - 1]) };
+                }
+                else
+                {
+                    matrix[i - 1] = new float[4] { h[i - 1], h[i - 1] + h[i], h[i], 3 * ((y[i + 1] - y[i]) / h[i] - (y[i] - y[i - 1]) / h[i - 1]) };
+                }
+                //h[i - 1] * c[i - 1] + 2 * (h[i - 1] + h[i]) * c[i] + h[i] * c[i + 1]
+                // = 3 * ((y[i + 1] - y[i]) / h[i] - (y[i] - y[i - 1]) / h[i - 1])
             }
+
+            if (TriDiagonal.IsTridiagonal(matrix.GetData()))
+            {
+                float[] coefficients = TriDiagonal.Solve(matrix.GetData());
+                for (int i = 1; i < n - 1; i++)
+                {
+                    c[i] = coefficients[i - 1];
+                }
+            }
+            else
+            {
+                throw new Exception("Некорректная матрица. Матрица не трехдиагональная");
+            }
+
         }
-        private double FindCoeffD(int index)
+        private float FindCoeffD(int index)
         {
-            return 0.0;
+            return (c[index + 1] - c[index]) / (3 * h[index]);
         }
 
 
@@ -130,10 +156,10 @@ namespace lab4
             return splineData;
         }
 
-        private double GetPhi(double arg, int numberSpline)
+        private float GetPhi(float arg, int numberSpline)
         {
-            return a[numberSpline] + b[numberSpline] * (arg - x[numberSpline]) + c[numberSpline] * Math.Pow(arg - x[numberSpline], 2) 
-                + d[numberSpline] * Math.Pow(arg - x[numberSpline], 3);
+            return a[numberSpline] + b[numberSpline] * (arg - x[numberSpline]) + c[numberSpline] * (float)Math.Pow(arg - x[numberSpline], 2) 
+                + d[numberSpline] * (float)Math.Pow(arg - x[numberSpline], 3);
         }
 
         private void SetIntervals()
