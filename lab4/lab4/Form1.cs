@@ -13,35 +13,46 @@ namespace lab4
 
             for (int i = 0; i < xArg.Length; i++)
             {
-                tableData.Rows.Add(i + 1, xArg[i], yArg[i]);
+                tableData.Rows.Add(xArg[i], yArg[i]);
             }
         }
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-           
-            tableData.Rows.Add(tableData.Rows.Count + 1, null, null);
+
+            tableData.Rows.Add(null, null);
         }
 
         private void btnRemove_Click(object sender, EventArgs e)
         {
-            // Проверка, выбрана ли строка
-            if (tableData.SelectedRows.Count > 0)
+            // Проверка, выбрана ли хотя бы одна ячейка
+            if (tableData.SelectedCells.Count > 0)
             {
-                // Удаляем выбранную строку
-                foreach (DataGridViewRow row in tableData.SelectedRows)
-                {
-                    // Убедитесь, что не пытаетесь удалить строку, которая является новой (пустой).
-                    if (!row.IsNewRow)
-                    {
-                        tableData.Rows.RemoveAt(row.Index);
-                    }
-                }
+                // Получаем индекс строки, в которой была выбрана ячейка
+                int selectedRowIndex = tableData.SelectedCells[0].RowIndex;
+
+                // Удаляем всю строку, в которой была выбрана ячейка
+                tableData.Rows.RemoveAt(selectedRowIndex);
             }
             else
             {
-                MessageBox.Show("Пожалуйста, выберите строку для удаления.");
+                MessageBox.Show("Пожалуйста, выберите ячейку в строке, которую хотите удалить.");
             }
+
+        }
+
+        private void btnSecondDerivative_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnFirstDerivative_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnSpline_Click(object sender, EventArgs e)
+        {
 
         }
     }
