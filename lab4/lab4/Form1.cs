@@ -75,26 +75,35 @@ namespace lab4
 
             Spline spline = new Spline(x, y);
             List<SplineInterpreter> splineInterpreters = spline.Phi_fun();
-            var series123 = new Series($"Куб. сплайн")
-            {
-                ChartType = SeriesChartType.Line,
-                ChartArea = "areaSpline"
-            };
-            chart1.Series.Add(series123);
 
+            chart1.Series["Spline"].Points.Clear();       
+            int phiMax = int.MinValue;
+            int phiMin = int.MaxValue;
+
+            AddCoeff(spline);
+            
             foreach (SplineInterpreter interpreter in splineInterpreters)
             {
-                int i = 1;
-               
                 for (int point = 0; point < interpreter.x.Length; point++)
                 {
-                    series123.Points.AddXY(interpreter.x[point], interpreter.phi[point]);
-                }               
-                
+                    chart1.Series["Spline"].Points.AddXY(interpreter.x[point], interpreter.phi[point]);
+                }
 
-                i++;
+                phiMax = (int)Math.Ceiling(Math.Max(phiMax, interpreter.phi.Max()));
+                phiMin = (int)Math.Ceiling(Math.Min(phiMin, interpreter.phi.Min()));
             }
-
+            chart1.ChartAreas["area"].AxisX.Minimum = (int)Math.Ceiling(x.Min()) - 1;  // Минимальное значение оси X
+            chart1.ChartAreas["area"].AxisX.Maximum = (int)Math.Ceiling(x.Max()) + 1; // Максимальное значение оси X
+            chart1.ChartAreas["area"].AxisY.Minimum = phiMin - 1;  // Минимальное значение оси X
+            chart1.ChartAreas["area"].AxisY.Maximum = phiMax + 1; // Максимальное значение оси X
+        }
+        private void AddCoeff(Spline spline)
+        {
+            tableCoefficients.Rows.Clear();
+            for (int i = 0; i < spline.A.Length - 1; i++) 
+            {
+                tableCoefficients.Rows.Add($"[{spline.X[i]}, {spline.X[i + 1]}]", spline.A[i], spline.B[i], spline.C[i], spline.D[i]);
+            }
         }
     }
 }

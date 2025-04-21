@@ -31,12 +31,15 @@ namespace lab4
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle7 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle8 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle9 = new DataGridViewCellStyle();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend3 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
+            ChartArea area = new ChartArea();
+            Series seriesSpline = new Series();
+            Series seriesDer1 = new Series();
+            Series seriesDer2 = new Series();
+            Legend legend = new Legend();
+            Title title1 = new Title();
             splitContainer1 = new SplitContainer();
             tableLayoutPanel1 = new TableLayoutPanel();
             lblTitle = new Label();
@@ -54,12 +57,8 @@ namespace lab4
             tableData = new DataGridView();
             xColumn = new DataGridViewTextBoxColumn();
             yColumn = new DataGridViewTextBoxColumn();
-            chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            chart1 = new Chart();
             backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
-            areaAll = new ChartArea();
-            areaSpline = new ChartArea();
-            areaDer1 = new ChartArea();
-            areaDer2 = new ChartArea();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
             splitContainer1.Panel1.SuspendLayout();
             splitContainer1.Panel2.SuspendLayout();
@@ -129,19 +128,18 @@ namespace lab4
             tableCoefficients.Anchor = AnchorStyles.Left | AnchorStyles.Right;
             tableCoefficients.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             tableCoefficients.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
-            dataGridViewCellStyle7.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle7.BackColor = SystemColors.Control;
-            dataGridViewCellStyle7.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            dataGridViewCellStyle7.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle7.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle7.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle7.WrapMode = DataGridViewTriState.True;
-            tableCoefficients.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = SystemColors.Control;
+            dataGridViewCellStyle1.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle1.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
+            tableCoefficients.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             tableCoefficients.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             tableCoefficients.Columns.AddRange(new DataGridViewColumn[] { interval, coefficientA, CoefficientB, coefficientC, coefficientD });
             tableCoefficients.Location = new Point(12, 420);
             tableCoefficients.Name = "tableCoefficients";
-            tableCoefficients.ReadOnly = true;
             tableCoefficients.RowHeadersVisible = false;
             tableCoefficients.RowTemplate.Height = 25;
             tableCoefficients.Size = new Size(348, 150);
@@ -153,7 +151,6 @@ namespace lab4
             interval.FillWeight = 253.807114F;
             interval.HeaderText = "Интервал";
             interval.Name = "interval";
-            interval.ReadOnly = true;
             interval.Width = 95;
             // 
             // coefficientA
@@ -161,28 +158,24 @@ namespace lab4
             coefficientA.FillWeight = 61.54822F;
             coefficientA.HeaderText = "aᵢ";
             coefficientA.Name = "coefficientA";
-            coefficientA.ReadOnly = true;
             // 
             // CoefficientB
             // 
             CoefficientB.FillWeight = 61.54822F;
             CoefficientB.HeaderText = "bᵢ";
             CoefficientB.Name = "CoefficientB";
-            CoefficientB.ReadOnly = true;
             // 
             // coefficientC
             // 
             coefficientC.FillWeight = 61.54822F;
             coefficientC.HeaderText = "cᵢ";
             coefficientC.Name = "coefficientC";
-            coefficientC.ReadOnly = true;
             // 
             // coefficientD
             // 
             coefficientD.FillWeight = 61.54822F;
             coefficientD.HeaderText = "dᵢ";
             coefficientD.Name = "coefficientD";
-            coefficientD.ReadOnly = true;
             // 
             // btnSecondDerivative
             // 
@@ -250,24 +243,24 @@ namespace lab4
             tableData.AllowUserToAddRows = false;
             tableData.Anchor = AnchorStyles.Left | AnchorStyles.Right;
             tableData.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dataGridViewCellStyle8.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle8.BackColor = SystemColors.Control;
-            dataGridViewCellStyle8.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            dataGridViewCellStyle8.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle8.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle8.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle8.WrapMode = DataGridViewTriState.True;
-            tableData.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = SystemColors.Control;
+            dataGridViewCellStyle2.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle2.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
+            tableData.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             tableData.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             tableData.Columns.AddRange(new DataGridViewColumn[] { xColumn, yColumn });
-            dataGridViewCellStyle9.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle9.BackColor = SystemColors.Window;
-            dataGridViewCellStyle9.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            dataGridViewCellStyle9.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle9.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle9.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle9.WrapMode = DataGridViewTriState.False;
-            tableData.DefaultCellStyle = dataGridViewCellStyle9;
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = SystemColors.Window;
+            dataGridViewCellStyle3.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle3.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle3.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.False;
+            tableData.DefaultCellStyle = dataGridViewCellStyle3;
             tableData.Location = new Point(12, 168);
             tableData.Name = "tableData";
             tableData.RowHeadersVisible = false;
@@ -286,64 +279,48 @@ namespace lab4
             yColumn.FillWeight = 134.771576F;
             yColumn.HeaderText = "Y";
             yColumn.Name = "yColumn";
-
-            /*chartArea3.Name = "ChartArea1";
-            chart1.ChartAreas.Add(chartArea3);
-            legend3.Name = "Legend1";
-            chart1.Legends.Add(legend3);*/
-            areaAll.Name = "areaAll";
-            areaDer1.Name = "areaDer1";
-            areaDer2.Name = "areaDer2";
-            areaSpline.Name = "areaSpline";
-            chart1.ChartAreas.Add(areaAll);
-            chart1.ChartAreas.Add(areaDer1);
-            chart1.ChartAreas.Add(areaDer2);
-            chart1.ChartAreas.Add(areaSpline);
-
+            // 
+            // chart1
+            // 
+            area.AxisX.Crossing = 0D;
+            area.AxisX.Interval = 1D;
+            area.AxisX.LineWidth = 2;
+            area.AxisY.Crossing = 0D;
+            area.AxisY.Interval = 1D;
+            area.AxisY.LineWidth = 2;
+            area.Name = "area";
+            chart1.ChartAreas.Add(area);
             chart1.Dock = DockStyle.Fill;
             chart1.Location = new Point(0, 0);
             chart1.Name = "chart1";
-            /*series3.Legend = "Legend1";
-            series3.Name = "Series1";
-            chart1.Series.Add(series3);*/
-            
-
+            legend.Name = "legend";
+            chart1.Legends.Add(legend);
+            seriesSpline.ChartArea = "area";
+            seriesSpline.LegendText = "Кубический сплайн";
+            seriesSpline.ChartType = SeriesChartType.Line;
+            seriesSpline.Name = "Spline";
+            seriesSpline.BorderWidth = 2;
+            seriesSpline.Color = Color.Green;
+            seriesDer1.ChartArea = "area";
+            seriesDer1.Name = "Der1";
+            seriesDer1.ChartType = SeriesChartType.Line;
+            seriesDer1.LegendText = "Первая производная";
+            seriesDer1.BorderWidth = 2;
+            seriesDer1.Color = Color.Magenta;
+            seriesDer2.ChartArea = "area";
+            seriesDer2.Name = "Der2";
+            seriesDer2.ChartType = SeriesChartType.Line;
+            seriesDer2.LegendText = "Вторая производная производная";
+            seriesDer2.BorderWidth = 2;
+            chart1.Series.Add(seriesSpline);
+            chart1.Series.Add(seriesDer1);
+            chart1.Series.Add(seriesDer2);
             chart1.Size = new Size(967, 587);
             chart1.TabIndex = 0;
+            chart1.Series["Spline"].IsVisibleInLegend = true;
             chart1.Text = "chart1";
-            chart1.Titles.Add(new Title
-            {
-                Text = "Все графики",
-                DockedToChartArea = "areaAll",     // <-- привязываем к конкретной области
-                Docking = Docking.Top,
-                Alignment = ContentAlignment.MiddleCenter,
-                Font = new Font("Segoe UI", 12, FontStyle.Bold),
-            });
-            chart1.Titles.Add(new Title
-            {
-                Text = "Кубический сплайн",
-                DockedToChartArea = "areaSpline",     // <-- привязываем к конкретной области
-                Docking = Docking.Top,
-                Alignment = ContentAlignment.MiddleCenter,
-                Font = new Font("Segoe UI", 12, FontStyle.Bold),
-            });
-            chart1.Titles.Add(new Title
-            {
-                Text = "Первая производная",
-                DockedToChartArea = "areaDer1",     // <-- привязываем к конкретной области
-                Docking = Docking.Top,
-                Alignment = ContentAlignment.MiddleCenter,
-                Font = new Font("Segoe UI", 12, FontStyle.Bold),
-            });
-            chart1.Titles.Add(new Title
-            {
-                Text = "Вторая производная",
-                DockedToChartArea = "areaDer2",     // <-- привязываем к конкретной области
-                Docking = Docking.Top,
-                Alignment = ContentAlignment.MiddleCenter,
-                Font = new Font("Segoe UI", 12, FontStyle.Bold),
-            });
-
+            title1.Name = "Title1";
+            chart1.Titles.Add(title1);
             // 
             // Form1
             // 
@@ -387,9 +364,6 @@ namespace lab4
         private DataGridViewTextBoxColumn CoefficientB;
         private DataGridViewTextBoxColumn coefficientC;
         private DataGridViewTextBoxColumn coefficientD;
-        private ChartArea areaSpline;
-        private ChartArea areaDer1;
-        private ChartArea areaDer2;
         private ChartArea areaAll;
     }
 }

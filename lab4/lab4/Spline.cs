@@ -106,6 +106,8 @@ namespace lab4
         public float[] B => b;
         public float[] C => c;
         public float[] D => d;
+        public float[] X => x;
+        public float[] Y => y;
 
         public Spline(float[] x, float[] y)
         {
