@@ -9,15 +9,15 @@ namespace lab4
     public class Function
     {
         private float a, b, c, d;
-        private float x_start;
+        //private float x_start;
 
-        public Function(float a, float b, float c, float d, float x_start)
+        public Function(float a, float b, float c, float d)
         {
             this.a = a;
             this.b = b;
             this.c = c;
             this.d = d;
-            this.x_start = x_start;
+            //this.x_start = x_start;
         }
 
         public (float[] x, float[] y) GetFuncPoints(float start, float end, float x_start=0)

@@ -1,5 +1,6 @@
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
+using System.Xml.Serialization;
 
 namespace lab4
 {
@@ -44,15 +45,62 @@ namespace lab4
 
         private void btnSecondDerivative_Click(object sender, EventArgs e)
         {
+            (float[] x, float[] y) = ReadTableData();
 
+            Spline spline = new Spline(x, y);
+            List<SplineInterpreter> splineInterpreters = spline.Phi_fun();
         }
 
         private void btnFirstDerivative_Click(object sender, EventArgs e)
         {
+            (float[] x, float[] y) = ReadTableData();
 
+            Spline spline = new Spline(x, y);
+            List<SplineInterpreter> splineInterpreters = spline.Phi_fun();
+
+            chart1.Series["Der1"].Points.Clear();
+            
+            int yMax = int.MinValue;
+            int yMin = int.MaxValue;
+            int xMax = int.MinValue;
+            int xMin = int.MaxValue;
+
+            for (int coef = 0; coef < spline.A.Length - 1; coef++)
+            {
+                Function function = new Function(spline.A[coef], spline.B[coef], spline.C[coef], spline.D[coef]);
+
+                (float[] xArg, float[] yArg) = function.GetFuncPoints(spline.X[coef], spline.X[coef + 1]);
+
+                for (int point = 0; point < xArg.Length; point++)
+                {
+                    chart1.Series["Der1"].Points.AddXY(xArg[point], yArg[point]);
+                }
+
+                yMax = (int)Math.Ceiling(Math.Max(yMax, yArg.Max()));
+                yMin = (int)Math.Ceiling(Math.Min(yMin, yArg.Min()));
+                xMax = (int)Math.Ceiling(Math.Max(xMax, xArg.Max()));
+                xMin = (int)Math.Ceiling(Math.Min(xMin, xArg.Min()));
+            }
+
+            if (chart1.ChartAreas["area"].AxisX.Minimum > xMin - 1)
+            {
+                chart1.ChartAreas["area"].AxisX.Minimum = xMin - 1; 
+            }
+            if (chart1.ChartAreas["area"].AxisX.Maximum < xMax + 1)
+            {
+                chart1.ChartAreas["area"].AxisX.Maximum = xMax + 1;
+            }
+            if (chart1.ChartAreas["area"].AxisY.Minimum > yMin - 1)
+            {
+                chart1.ChartAreas["area"].AxisY.Minimum = yMin - 1;
+            }
+            if (chart1.ChartAreas["area"].AxisY.Maximum < yMax + 1)
+            {
+                chart1.ChartAreas["area"].AxisY.Maximum = yMax + 1;
+            }
         }
 
-        private void btnSpline_Click(object sender, EventArgs e)
+        private (float[], float[]) ReadTableData()
         {
             float[] x = new float[tableData.Rows.Count];
             float[] y = new float[tableData.Rows.Count];
@@ -60,7 +108,7 @@ namespace lab4
             {
                 float xArg;
                 float yArg;
-                if (!(float.TryParse(tableData.Rows[i].Cells[0].Value.ToString(), out xArg) && 
+                if (!(float.TryParse(tableData.Rows[i].Cells[0].Value.ToString(), out xArg) &&
                     float.TryParse(tableData.Rows[i].Cells[1].Value.ToString(), out yArg)))
                 {
                     MessageBox.Show("Пожалуйста, введите корректные данные для координат.");
@@ -72,7 +120,13 @@ namespace lab4
                     y[i] = yArg;
                 }
             }
+            return (x, y);
+        }
 
+        private void btnSpline_Click(object sender, EventArgs e)
+        {
+            (float[] x, float[] y) = ReadTableData();
+            
             Spline spline = new Spline(x, y);
             List<SplineInterpreter> splineInterpreters = spline.Phi_fun();
 
@@ -92,10 +146,23 @@ namespace lab4
                 phiMax = (int)Math.Ceiling(Math.Max(phiMax, interpreter.phi.Max()));
                 phiMin = (int)Math.Ceiling(Math.Min(phiMin, interpreter.phi.Min()));
             }
-            chart1.ChartAreas["area"].AxisX.Minimum = (int)Math.Ceiling(x.Min()) - 1;  // Минимальное значение оси X
-            chart1.ChartAreas["area"].AxisX.Maximum = (int)Math.Ceiling(x.Max()) + 1; // Максимальное значение оси X
-            chart1.ChartAreas["area"].AxisY.Minimum = phiMin - 1;  // Минимальное значение оси X
-            chart1.ChartAreas["area"].AxisY.Maximum = phiMax + 1; // Максимальное значение оси X
+            if (chart1.ChartAreas["area"].AxisX.Minimum > (int)Math.Ceiling(x.Min()) - 1)
+            {
+                chart1.ChartAreas["area"].AxisX.Minimum = (int)Math.Ceiling(x.Min()) - 1;
+            }
+            if (chart1.ChartAreas["area"].AxisX.Maximum < (int)Math.Ceiling(x.Max()) + 1)
+            {
+                chart1.ChartAreas["area"].AxisX.Maximum = (int)Math.Ceiling(x.Max()) + 1;
+            }
+            if (chart1.ChartAreas["area"].AxisY.Minimum > phiMin - 1)
+            {
+                chart1.ChartAreas["area"].AxisY.Minimum = phiMin - 1;
+            }
+            if (chart1.ChartAreas["area"].AxisY.Maximum < phiMax + 1)
+            {
+                chart1.ChartAreas["area"].AxisY.Maximum = phiMax + 1;
+            }
+          
         }
         private void AddCoeff(Spline spline)
         {
