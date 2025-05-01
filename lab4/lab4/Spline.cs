@@ -30,22 +30,24 @@ namespace lab4
         {
             int n = x.Length;
             float[] derivative = new float[n];
-
-            float deltaX = x[1] - x[0];
+            float h;
 
             for (int i = 0; i < n; i++)
             {
                 if (i == 0) // Левая граница
                 {
-                    derivative[i] = (phi[i + 1] - phi[i]) / deltaX;
+                    h = x[i + 1] - x[i];
+                    derivative[i] = (phi[i + 1] - phi[i]) / h;
                 }
                 else if (i == n - 1) // Правая граница
                 {
-                    derivative[i] = (3 * phi[i] - 4 * phi[i - 1] + phi[i - 2]) / deltaX / 2;
+                    h = x[i] - x[i - 1];
+                    derivative[i] = (1.5f * phi[i] - 2 * phi[i - 1] + 0.5f * phi[i - 2]) / h;
                 }
                 else // Внутренние точки
                 {
-                    derivative[i] = (phi[i + 1] - phi[i - 1]) / (2 * deltaX);
+                    h = x[i + 1] - x[i - 1];
+                    derivative[i] = (phi[i + 1] - phi[i - 1]) / (h);
                 }
             }
 
@@ -57,22 +59,24 @@ namespace lab4
             int n = x.Length;
             float[] secondDerivative = new float[n];
 
-            float deltaX = x[1] - x[0];
-            float sqDeltaX = deltaX * deltaX;
+            float h;
 
             for (int i = 0; i < n; i++)
             {
                 if (i == 0) // Левая граница (первый элемент)
                 {
-                    secondDerivative[i] = (phi[i + 2] - 2 * phi[i + 1] + phi[i]) / sqDeltaX;
+                    h = x[i + 1] - x[i];
+                    secondDerivative[i] = (phi[i + 2] - 2 * phi[i + 1] + phi[i]) / (h * h);
                 }
                 else if (i == n - 1) // Правая граница (последний элемент)
                 {
-                    secondDerivative[i] = (2 * phi[i] - 5 * phi[i - 1] + 4 * phi[i - 2] - phi[i - 3]) / sqDeltaX;
+                    h = x[i] - x[i - 1];
+                    secondDerivative[i] = (2 * phi[i] - 5 * phi[i - 1] + 4 * phi[i - 2] - phi[i - 3]) / (h * h);
                 }
                 else // Внутренние точки
                 {
-                    secondDerivative[i] = (phi[i + 1] - 2 * phi[i] + phi[i - 1]) / sqDeltaX;
+                    h = x[i + 1] - x[i];
+                    secondDerivative[i] = (phi[i + 1] - 2 * phi[i] + phi[i - 1]) / (h * h);
                 }
             }
 
