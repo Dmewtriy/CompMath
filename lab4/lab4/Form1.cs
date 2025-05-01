@@ -167,7 +167,8 @@ namespace lab4
         private void btnSpline_Click(object sender, EventArgs e)
         {
             (float[] x, float[] y) = ReadTableData();
-
+            chart1.Series["Points"].Points.Clear();
+            AddPoints();
             Spline spline = new Spline(x, y);
             List<SplineInterpreter> splineInterpreters = spline.Phi_fun();
 
@@ -219,6 +220,15 @@ namespace lab4
             for (int i = 0; i < chart1.Series.Count; i++) 
             {
                 chart1.Series[i].Points.Clear();
+            }
+        }
+
+        private void AddPoints()
+        {
+            (float[] x, float[] y) = ReadTableData();
+            for (int i = 0; i < x.Length; i++) 
+            {
+                chart1.Series["Points"].Points.AddXY(x[i], y[i]);
             }
         }
     }

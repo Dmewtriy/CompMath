@@ -40,6 +40,7 @@ namespace lab4
             Series series4 = new Series();
             Series series5 = new Series();
             Series series6 = new Series();
+            Series points = new Series();
             Title title2 = new Title();
             splitContainer1 = new SplitContainer();
             tableLayoutPanel1 = new TableLayoutPanel();
@@ -345,9 +346,16 @@ namespace lab4
             series6.Legend = "legend";
             series6.LegendText = "Вторая производная производная";
             series6.Name = "Der2";
+            points.BorderWidth = 2;
+            points.ChartArea = "area";
+            points.Name = "Points";
+            points.ChartType = SeriesChartType.Point;
+            points.Color = Color.Magenta;
+            points.MarkerStyle = MarkerStyle.Circle;
             chart1.Series.Add(series4);
             chart1.Series.Add(series5);
             chart1.Series.Add(series6);
+            chart1.Series.Add(points);
             chart1.Size = new Size(967, 587);
             chart1.TabIndex = 0;
             chart1.Text = "chart1";
