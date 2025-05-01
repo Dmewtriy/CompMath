@@ -12,8 +12,6 @@ namespace lab4
         public float[] phi;
         public float[] limits = new float[2];
 
-        private float[] firstDerY;
-
         public SplineInterpreter(float[] x, float[] phi, float[] limits)
         {
             this.x = x;

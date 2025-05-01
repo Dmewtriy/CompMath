@@ -3,21 +3,6 @@ using System;
 
 namespace lab4
 {
-    /*internal static class Program
-    {
-        /// <summary>
-        ///  The main entry point for the application.
-        /// </summary>
-        [STAThread]
-        static void Main()
-        {
-            // To customize application configuration such as set high DPI settings or default font,
-            // see https://aka.ms/applicationconfiguration.
-            ApplicationConfiguration.Initialize();
-            Application.Run(new Form1());
-        }
-    }*/
-
     class Program
     {/*
         
@@ -80,105 +65,7 @@ namespace lab4
                 Console.WriteLine($"Оптимальный шаг для точки {x}: {optimalH}, минимальная погрешность: {minError:F6}\n");
             }
         }
-       
-
-
-        static void Main()
-        {
-            float[] x = {-1, 0, 1, 2, 3};
-            float[] y = {-2, -2, -7, 1, 14};
-
-            Spline spline = new Spline(x, y);
-
-            List<SplineInterpreter> splines = spline.Phi_fun();
-            Console.WriteLine("Интервал\t\td_i\t\tc_i\t\tb_i\t\ta_i");
-            for (int i = 0; i < x.Length - 1; i++)
-            {
-                Console.WriteLine(
-                    $"[{x[i],3}, {x[i + 1],-3}]\t" +
-                    $"{spline.D[i],-10:F3}\t" +
-                    $"{spline.C[i],-10:F3}\t" +
-                    $"{spline.B[i],-10:F3}\t" +
-                    $"{spline.A[i],-10:F3}"
-                );
-            }
-            Console.WriteLine("f");
-            for (int i = 0; i < splines[0].x.Length; i++)
-            {
-                Console.Write("(" + splines[0].x[i] + ", " + splines[0].phi[i] + ")");
-            }
-            Console.WriteLine();
-
-            float[] der = splines[0].ComputeFirstDerivative();
-
-        } */
-        /*/// <summary>
-        ///  The main entry point for the application.
-        /// </summary>
-        [STAThread]
-        static void Main()
-        {
-            *//*// To customize application configuration such as set high DPI settings or default font,
-            // see https://aka.ms/applicationconfiguration.
-            ApplicationConfiguration.Initialize();
-            Application.Run(new Form1());*/
-            /*float[] x = { -1, 0, 1, 2, 3 };
-            float[] y = { -2, -2, -7, 1, 14 };
-
-            Spline spline = new Spline(x, y);
-
-            List<SplineInterpreter> splines = spline.Phi_fun();
-
-            Console.WriteLine("f");
-            for (int i = 0; i < splines[0].x.Length; i++)
-            {
-                Console.Write("(" + $"{splines[0].x[i]:F3}" + ", " + $"{splines[0].phi[i]:F3}" + ")");
-            }
-            Console.WriteLine();
-
-            float[] der1 = splines[0].ComputeFirstDerivative();
-            Console.WriteLine("f`");
-            for (int i = 0; i < der1.Length; i++)
-            {
-                Console.Write("(" + $"{splines[0].x[i]:F3}" + ", " + $"{der1[i]:F3}" + ")");
-            }
-            Console.WriteLine();
-
-            float[] der2 = splines[0].ComputeSecondDerivative();
-            Console.WriteLine("f``");
-            for (int i = 0; i < der2.Length; i++)
-            {
-                Console.Write("(" + $"{splines[0].x[i]:F3}" + ", " + $"{der2[i]:F3}" + ")");
-            }
-            Console.WriteLine();*/
-            /*
-                        Console.WriteLine("f");
-                        for (int i = 0; i < splines[0].x.Length; i++)
-                        {
-                            float x_ = splines[0].x[i];
-                            Console.Write($"({splines[0].phi[i]:F3}, {(-2 + 2.179 * (x_ + 1) - 2.179 * Math.Pow(x_+1, 3)):F3}) ");
-                        }
-                        Console.WriteLine();
-
-                        float[] der1 = splines[0].ComputeFirstDerivative();
-                        Console.WriteLine("f`");
-                        for (int i = 0; i < der1.Length; i++)
-                        {
-                            float x_ = splines[0].x[i];
-                            Console.Write($"({der1[i]:F3}, {(2.179 - 6.537 * Math.Pow(x_ + 1, 2)):F3}) ");
-                        }
-                        Console.WriteLine();
-
-                        float[] der2 = splines[0].ComputeSecondDerivative();
-                        Console.WriteLine("f``");
-                        for (int i = 0; i < der2.Length; i++)
-                        {
-                            float x_ = splines[0].x[i];
-                            Console.Write($"({der2[i]:F3}, {(-13.074 * (x_ + 1)):F3}) ");
-                        }
-                        Console.WriteLine();*//*
-        }*/
-
+       */
         /// <summary>
         ///  The main entry point for the application.
         /// </summary>
@@ -190,5 +77,5 @@ namespace lab4
             ApplicationConfiguration.Initialize();
             Application.Run(new Form1());
         }
-        }
     }
+}

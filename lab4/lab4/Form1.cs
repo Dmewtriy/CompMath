@@ -57,22 +57,22 @@ namespace lab4
             int xMax = int.MinValue;
             int xMin = int.MaxValue;
 
-            for (int coef = 0; coef < spline.A.Length - 1; coef++)
+            foreach (SplineInterpreter interpreter in splineInterpreters)
             {
-                Function function = new Function(spline.A[coef], spline.B[coef], spline.C[coef], spline.D[coef]);
-
-                (float[] xArg, float[] yArg) = function.GetFuncPoints(spline.X[coef], spline.X[coef + 1]);
-
-                for (int point = 0; point < xArg.Length; point++)
+                float[] der = interpreter.ComputeSecondDerivative();
+                (float[] xArg, float[] yArg) = (new float[der.Length], new float[der.Length]);
+                for (int i = 0; i < der.Length; i++)
                 {
-                    chart1.Series["Der2"].Points.AddXY(xArg[point], yArg[point]);
+                    xArg[i] = interpreter.x[i];
+                    yArg[i] = der[i];
+                    chart1.Series["Der2"].Points.AddXY(interpreter.x[i], der[i]);
                 }
-
                 yMax = (int)Math.Ceiling(Math.Max(yMax, yArg.Max()));
                 yMin = (int)Math.Ceiling(Math.Min(yMin, yArg.Min()));
                 xMax = (int)Math.Ceiling(Math.Max(xMax, xArg.Max()));
                 xMin = (int)Math.Ceiling(Math.Min(xMin, xArg.Min()));
             }
+
 
             if (chart1.ChartAreas["area"].AxisX.Minimum > xMin - 1)
             {
@@ -106,22 +106,22 @@ namespace lab4
             int xMax = int.MinValue;
             int xMin = int.MaxValue;
 
-            for (int coef = 0; coef < spline.A.Length - 1; coef++)
+            foreach (SplineInterpreter interpreter in splineInterpreters)
             {
-                Function function = new Function(spline.A[coef], spline.B[coef], spline.C[coef], spline.D[coef]);
-
-                (float[] xArg, float[] yArg) = function.GetFuncPoints(spline.X[coef], spline.X[coef + 1]);
-
-                for (int point = 0; point < xArg.Length; point++)
+                float[] der = interpreter.ComputeFirstDerivative();
+                (float[] xArg, float[] yArg) = (new float[der.Length], new float[der.Length]);
+                for (int i = 0; i < der.Length; i++)
                 {
-                    chart1.Series["Der1"].Points.AddXY(xArg[point], yArg[point]);
+                    xArg[i] = interpreter.x[i];
+                    yArg[i] = der[i];
+                    chart1.Series["Der1"].Points.AddXY(interpreter.x[i], der[i]);
                 }
-
                 yMax = (int)Math.Ceiling(Math.Max(yMax, yArg.Max()));
                 yMin = (int)Math.Ceiling(Math.Min(yMin, yArg.Min()));
                 xMax = (int)Math.Ceiling(Math.Max(xMax, xArg.Max()));
                 xMin = (int)Math.Ceiling(Math.Min(xMin, xArg.Min()));
             }
+
 
             if (chart1.ChartAreas["area"].AxisX.Minimum > xMin - 1)
             {
