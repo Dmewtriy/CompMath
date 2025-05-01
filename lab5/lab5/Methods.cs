@@ -8,59 +8,86 @@ namespace lab5
 {
     internal class Methods
     {
-        private int n = 100;
-        
+        public delegate double Function (double x);
+
+        private readonly Function f;
+        private double h;
+
+        private double[] fValues;
+        private int n;
+
+        public Methods(Function function, double a = 3, double b = 13, int n = 100)
+        {
+            f = function;
+            this.n = n;
+
+            fValues = new double[n + 1];
+
+            h = (b - a) / (double)n;
+
+            for (int i = 0; i <= n; i++) 
+            {
+                fValues[i] = f.Invoke(a + i * h);
+            }
+        }
+
+
         private void FindStep()
         {
 
         }
 
-        public float RightRectangle(float[] f)
+        public double RightRectangle()
         {
-            float result = 0;
-            float h = f[1] - f[0];
+            double result = 0;
 
-            for (int i = 1; i < f.Length; i++) 
+            for (int i = 1; i <= n; i++) 
             {
-                result += h * f[i];
+                result += h * fValues[i];
             }
 
             return result;
         }
 
-        public float Trapezoid(float[] f)
+        public double Trapezoid()
         {
-            float result = 0;
-            float h = f[1] - f[0];
+            double result = 0;
 
-            for (int i = 1; i < f.Length - 2; i++)
+            for (int i = 1; i <= n - 1; i++)
             {
-                result += 2 * f[i];
+                result += 2 * fValues[i];
             }
 
-            return h * 0.5f * (result + f[0] + f[f.Length - 1]);
+            return h * 0.5f * (result + fValues[0] + fValues[fValues.Length - 1]);
         }
 
-        public float Simpson(float[] f)
+        public double Simpson()
         {
-            float result = 0;
-            float h = f[1] - f[0];
+            double result = 0;
 
-            for (int i = 1; i < f.Length - 2; i++)
+            for (int i = 1; i <= n - 1; i++)
             {
                 if (i % 2 == 0)
                 {
-                    result += 2 * f[i];
+                    result += 2 * fValues[i];
 
                 }
                 else
                 {
-                    result += 4 * f[i];
+                    result += 4 * fValues[i];
 
                 }
             }
 
-            return h / 3.0f * (f[0] + result + f[f.Length - 1]);
+            return h / 3.0f * (fValues[0] + result + fValues[fValues.Length - 1]);
+        }
+
+
+        public override string ToString()
+        {
+            return $"Метод Правых прямоугольников: {RightRectangle()}\n" +
+                $"Метод Трапеций: {Trapezoid()}\n" +
+                $"Метод Симпсона: {Simpson()}";
         }
 
     }
