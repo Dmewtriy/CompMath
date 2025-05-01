@@ -25,32 +25,27 @@ namespace lab4
             phi = new float[n];
         }
 
-        public SplineInterpreter()
-        {
-
-        }
         // Метод для вычисления первой производной
         public float[] ComputeFirstDerivative()
         {
             int n = x.Length;
             float[] derivative = new float[n];
 
+            float deltaX = x[1] - x[0];
+
             for (int i = 0; i < n; i++)
             {
                 if (i == 0) // Левая граница
                 {
-                    float deltaX = x[1] - x[0];
-                    derivative[i] = (phi[1] - phi[0]) / (deltaX);
+                    derivative[i] = (phi[i + 1] - phi[i]) / deltaX;
                 }
                 else if (i == n - 1) // Правая граница
                 {
-                    float deltaX = x[n - 1] - x[n - 2];
-                    derivative[i] = (phi[n - 1] - phi[n - 2]) / (deltaX);
+                    derivative[i] = (3 * phi[i] - 4 * phi[i - 1] + phi[i - 2]) / deltaX / 2;
                 }
                 else // Внутренние точки
                 {
-                    float deltaX = x[i + 1] - x[i - 1];
-                    derivative[i] = (phi[i + 1] - phi[i - 1]) / deltaX;
+                    derivative[i] = (phi[i + 1] - phi[i - 1]) / (2 * deltaX);
                 }
             }
 
@@ -62,22 +57,22 @@ namespace lab4
             int n = x.Length;
             float[] secondDerivative = new float[n];
 
+            float deltaX = x[1] - x[0];
+            float sqDeltaX = deltaX * deltaX;
+
             for (int i = 0; i < n; i++)
             {
                 if (i == 0) // Левая граница (первый элемент)
                 {
-                    float deltaX = x[1] - x[0]; // Предполагаем равномерный шаг
-                    secondDerivative[i] = (phi[2] - 2 * phi[1] + phi[0]) / (deltaX * deltaX);
+                    secondDerivative[i] = (phi[i + 2] - 2 * phi[i + 1] + phi[i]) / sqDeltaX;
                 }
                 else if (i == n - 1) // Правая граница (последний элемент)
                 {
-                    float deltaX = x[n - 1] - x[n - 2]; // Предполагаем равномерный шаг
-                    secondDerivative[i] = (phi[n - 1] - 2 * phi[n - 2] + phi[n - 3]) / (deltaX * deltaX);
+                    secondDerivative[i] = (2 * phi[i] - 5 * phi[i - 1] + 4 * phi[i - 2] - phi[i - 3]) / sqDeltaX;
                 }
                 else // Внутренние точки
                 {
-                    float deltaX = x[i + 1] - x[i]; // Шаг между точками
-                    secondDerivative[i] = (phi[i + 1] - 2 * phi[i] + phi[i - 1]) / (deltaX * deltaX);
+                    secondDerivative[i] = (phi[i + 1] - 2 * phi[i] + phi[i - 1]) / sqDeltaX;
                 }
             }
 
