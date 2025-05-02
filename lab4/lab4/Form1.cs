@@ -211,7 +211,7 @@ namespace lab4
             tableCoefficients.Rows.Clear();
             for (int i = 0; i < spline.A.Length - 1; i++)
             {
-                tableCoefficients.Rows.Add($"[{spline.X[i]}, {spline.X[i + 1]}]", spline.A[i], spline.B[i], spline.C[i], spline.D[i]);
+                tableCoefficients.Rows.Add($"[{spline.X[i]}; {spline.X[i + 1]}]", spline.A[i], spline.B[i], spline.C[i], spline.D[i]);
             }
         }
 
