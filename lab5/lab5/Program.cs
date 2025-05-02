@@ -8,16 +8,10 @@ namespace lab5
 {
     internal class Program
     {
-        static double f (double x)
-        {
-            return (2.5f * x * x - 0.1f) / (Math.Log(x) + 1);
-        }
         static void Main(string[] args)
         {
-            Methods methods = new Methods(f);
-
+            Methods methods = new Methods(x => (2.5f * x * x - 0.1f) / (Math.Log(x) + 1));
             Console.WriteLine(methods.ToString());
-        
         }
     }
 }

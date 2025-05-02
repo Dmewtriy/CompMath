@@ -174,8 +174,7 @@ namespace lab4
                     }
                 }
                 matrix[i - 1, n - 2] = 3 * ((y[i + 1] - y[i]) / h[i] - (y[i] - y[i - 1]) / h[i - 1]);
-                //h[i - 1] * c[i - 1] + 2 * (h[i - 1] + h[i]) * c[i] + h[i] * c[i + 1]
-                // = 3 * ((y[i + 1] - y[i]) / h[i] - (y[i] - y[i - 1]) / h[i - 1])
+                
             }
 
             if (TriDiagonal.IsTridiagonal(matrix.GetData()))
