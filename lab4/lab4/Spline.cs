@@ -37,12 +37,12 @@ namespace lab4
                 if (i == 0) // Левая граница
                 {
                     h = x[i + 1] - x[i];
-                    derivative[i] = (phi[i + 1] - phi[i]) / h;
+                    derivative[i] = (-2.5f * phi[i + 3] + 7 * phi[i + 2] - 5.5f * phi[i + 1] + phi[i]) / h;
                 }
                 else if (i == n - 1) // Правая граница
                 {
                     h = x[i] - x[i - 1];
-                    derivative[i] = (1.5f * phi[i] - 2 * phi[i - 1] + 0.5f * phi[i - 2]) / h;
+                    derivative[i] = ((11/6.0f) * phi[i] - 3 * phi[i - 1] + 1.5f * phi[i - 2] - (1/3.0f) * phi[i - 3]) / h;
                 }
                 else // Внутренние точки
                 {
@@ -66,7 +66,7 @@ namespace lab4
                 if (i == 0) // Левая граница (первый элемент)
                 {
                     h = x[i + 1] - x[i];
-                    secondDerivative[i] = (phi[i + 2] - 2 * phi[i + 1] + phi[i]) / (h * h);
+                    secondDerivative[i] = (2 * phi[i] - 5 * phi[i + 1] + 4 * phi[i + 2] - phi[i + 3]) / (h * h);
                 }
                 else if (i == n - 1) // Правая граница (последний элемент)
                 {

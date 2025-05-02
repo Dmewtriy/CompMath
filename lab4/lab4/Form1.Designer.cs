@@ -350,7 +350,7 @@ namespace lab4
             points.ChartArea = "area";
             points.Name = "Points";
             points.ChartType = SeriesChartType.Point;
-            points.Color = Color.Magenta;
+            points.Color = Color.Red;
             points.MarkerStyle = MarkerStyle.Circle;
             chart1.Series.Add(series4);
             chart1.Series.Add(series5);
