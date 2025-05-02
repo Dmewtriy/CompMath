@@ -12,6 +12,6 @@ namespace lab5
         {
             Methods methods = new Methods(x => (2.5f * x * x - 0.1f) / (Math.Log(x) + 1));
             Console.WriteLine(methods.ToString());
-        }
+        }1 4
     }
 }
