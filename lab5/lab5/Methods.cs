@@ -23,18 +23,17 @@ namespace lab5
 
         private (double, double) Runge(Func<double, double> method, int p)
         {
-            int r = 2;
-            double h = 12; // стартовый шаг
+            int r = 4;
+            double h = (b-a); // стартовый шаг
             double I1 = method(h);
             double I2 = method(h/r);
 
-            while (Math.Abs(I2 - I1) / (Math.Pow(r, p) - 1) > eps)
+            while ((Math.Abs(I2 - I1) / (Math.Pow(r, p) - 1)) > eps)
             {
                 h /= r;
                 I1 = I2;
                 I2 = method(h/r);
             }
-
             h /= r; // последний шаг, на котором была достигнута точность
             return (I2, h);
         }
@@ -44,7 +43,8 @@ namespace lab5
 
         private double RightRectangle(double h)
         {
-            int n = (int)((b - a) / h);
+            int n = (int)((b - a) / h); // Всегда округляем вверх
+            h = (b - a) / n; // Пересчитываем h для точного разбиения интервала
             double sum = 0;
 
             for (int i = 1; i <= n; i++)
@@ -57,9 +57,10 @@ namespace lab5
 
         private double Trapezoid(double h)
         {
-            int n = (int)((b - a) / h);
-            double sum = 0;
+            int n = (int)((b - a) / h); // Всегда округляем вверх
+            h = (b - a) / n; // Пересчитываем h для точного разбиения интервала
 
+            double sum = 0;
             for (int i = 1; i < n; i++)
             {
                 sum += 2 * f(a + i * h);
@@ -70,14 +71,15 @@ namespace lab5
 
         private double Simpson(double h)
         {
-            int n = (int)((b - a) / h);
-            if (n % 2 != 0) n++; // Симпсон требует чётное число разбиений
+            int n = (int)((b - a) / h); // Всегда округляем вверх
+            if (n % 2 != 0) n--; // Симпсон требует чётное число разбиений
             h = (b - a) / n;     // пересчитываем h под корректное n
 
             double sum = 0;
+            double coeff;
             for (int i = 1; i < n; i++)
             {
-                double coeff = (i % 2 == 0) ? 2 : 4;
+                coeff = (i % 2 == 0) ? 2 : 4;
                 sum += coeff * f(a + i * h);
             }
 
