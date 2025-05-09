@@ -185,9 +185,10 @@ namespace lab4
                     chart1.Series["Spline"].Points.AddXY(interpreter.x[point], interpreter.phi[point]);
                 }
 
-                phiMax = (int)Math.Ceiling(Math.Max(phiMax, interpreter.phi.Max()));
-                phiMin = (int)Math.Ceiling(Math.Min(phiMin, interpreter.phi.Min()));
+                //phiMax = (int)Math.Ceiling(Math.Max(phiMax, interpreter.phi.Max()));
+                //phiMin = (int)Math.Ceiling(Math.Min(phiMin, interpreter.phi.Min()));
             }
+            /*
             if (chart1.ChartAreas["area"].AxisX.Minimum > (int)Math.Ceiling(x.Min()) - 1)
             {
                 chart1.ChartAreas["area"].AxisX.Minimum = (int)Math.Ceiling(x.Min()) - 1;
@@ -203,7 +204,7 @@ namespace lab4
             if (chart1.ChartAreas["area"].AxisY.Maximum < phiMax + 1)
             {
                 chart1.ChartAreas["area"].AxisY.Maximum = phiMax + 1;
-            }
+            }*/
 
         }
         private void AddCoeff(Spline spline)

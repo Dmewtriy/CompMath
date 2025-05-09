@@ -16,7 +16,7 @@ namespace lab5
         private double[] fValues;
         private int n;
 
-        public Methods(Function function, double a = 3, double b = 13, int n = 550)
+        public Methods(Function function, double a = 3, double b = 13, int n = 1174)
         {
             f = function;
             this.n = n;
