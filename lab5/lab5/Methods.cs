@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace lab5
 {
@@ -11,84 +7,92 @@ namespace lab5
         public delegate double Function(double x);
 
         private readonly Function f;
-        private double h;
+        private readonly double a;
+        private readonly double b;
+        private readonly double eps;
 
-        private double[] fValues;
-        private int n;
-
-        public Methods(Function function, double a = 3, double b = 13, int n = 550)
+        public Methods(Function function, double a = 3, double b = 13, double eps = 1e-6)
         {
-            f = function;
-            this.n = n;
+            this.f = function;
+            this.a = a;
+            this.b = b;
+            this.eps = eps;
+        }
 
-            fValues = new double[n + 1];
+        // =================== Правило Рунге (общая логика) ===================
 
-            h = (b - a) / (double)n;
+        private (double, double) Runge(Func<double, double> method, int p)
+        {
+            int r = 2;
+            double h = 12; // стартовый шаг
+            double I1 = method(h);
+            double I2 = method(h/r);
 
-            for (int i = 0; i <= n; i++)
+            while (Math.Abs(I2 - I1) / (Math.Pow(r, p) - 1) > eps)
             {
-                fValues[i] = f.Invoke(a + i * h);
+                h /= r;
+                I1 = I2;
+                I2 = method(h/r);
             }
+
+            h /= r; // последний шаг, на котором была достигнута точность
+            return (I2, h);
         }
 
 
-        private void FindStep()
-        {
+        // =================== Методы интегрирования ===================
 
-        }
-
-        public double RightRectangle()
+        private double RightRectangle(double h)
         {
-            double result = 0;
+            int n = (int)((b - a) / h);
+            double sum = 0;
 
             for (int i = 1; i <= n; i++)
             {
-                result += h * fValues[i];
+                sum += f(a + i * h);
             }
 
-            return result;
+            return h * sum;
         }
 
-        public double Trapezoid()
+        private double Trapezoid(double h)
         {
-            double result = 0;
+            int n = (int)((b - a) / h);
+            double sum = 0;
 
-            for (int i = 1; i <= n - 1; i++)
+            for (int i = 1; i < n; i++)
             {
-                result += 2 * fValues[i];
+                sum += 2 * f(a + i * h);
             }
 
-            return h * 0.5f * (result + fValues[0] + fValues[fValues.Length - 1]);
+            return h * 0.5 * (f(a) + f(b) + sum);
         }
 
-        public double Simpson()
+        private double Simpson(double h)
         {
-            double result = 0;
+            int n = (int)((b - a) / h);
+            if (n % 2 != 0) n++; // Симпсон требует чётное число разбиений
+            h = (b - a) / n;     // пересчитываем h под корректное n
 
-            for (int i = 1; i <= n - 1; i++)
+            double sum = 0;
+            for (int i = 1; i < n; i++)
             {
-                if (i % 2 == 0)
-                {
-                    result += 2 * fValues[i];
-
-                }
-                else
-                {
-                    result += 4 * fValues[i];
-
-                }
+                double coeff = (i % 2 == 0) ? 2 : 4;
+                sum += coeff * f(a + i * h);
             }
 
-            return h / 3.0f * (fValues[0] + result + fValues[fValues.Length - 1]);
+            return h / 3.0 * (f(a) + f(b) + sum);
         }
-
 
         public override string ToString()
         {
-            return $"Метод Правых прямоугольников: {RightRectangle()}\n" +
-                $"Метод Трапеций: {Trapezoid()}\n" +
-                $"Метод Симпсона: {Simpson()}";
-        }
+            var (valR, stepR) = Runge(RightRectangle, 1);
+            var (valT, stepT) = Runge(Trapezoid, 2);
+            var (valS, stepS) = Runge(Simpson, 4);
 
+            return $"Метод Правых прямоугольников:\n  Значение: {valR}, шаг: {stepR}\n" +
+                   $"Метод Трапеций:\n  Значение: {valT}, шаг: {stepT}\n" +
+                   $"Метод Симпсона:\n  Значение: {valS}, шаг: {stepS}";
+        }
     }
 }
