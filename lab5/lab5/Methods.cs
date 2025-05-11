@@ -23,7 +23,7 @@ namespace lab5
 
         private (double, double) Runge(Func<double, double> method, int p)
         {
-            int r = 4;
+            int r = 2;
             double h = (b-a); // стартовый шаг
             double I1 = method(h);
             double I2 = method(h/r);
