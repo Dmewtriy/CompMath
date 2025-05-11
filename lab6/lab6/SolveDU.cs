@@ -64,7 +64,7 @@ namespace lab6
             return (x, y);
         }
 
-        public (double[] x, double[] y) RKMMethod(double h, double epsilon = 0.01)
+        public (double[] x, double[] y) RKMMethod(double h, double epsilon = 0.0001)
         {
             List<double> xList = new List<double>();
             List<double> yList = new List<double>();
@@ -93,18 +93,16 @@ namespace lab6
 
                 if (Math.Abs(localError) >= epsilon)
                 {
-                    h /= 2; // Уменьшаем шаг и пробуем снова
+                    h /= 2;
                     continue;
                 }
 
-                // Шаг подходит — делаем шаг
                 y = y + k1 / 6.0 + k4 * 2 / 3.0 + k5 / 6.0;
                 x += h;
 
                 xList.Add(x);
                 yList.Add(y);
 
-                // Увеличиваем шаг, если погрешность мала
                 if (Math.Abs(localError) <= epsilon / 32.0 && h * 2 <= xn - x)
                 {
                     h *= 2;
@@ -130,6 +128,11 @@ namespace lab6
             }
             return (x, y);
 
+        }
+
+        public double TrueSolut(double x)
+        {
+            return y0 * solution(x);
         }
     }
 }
